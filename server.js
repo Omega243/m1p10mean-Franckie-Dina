@@ -10,7 +10,6 @@ const cors = require('cors') ;
 **************/
 app.use(express.json()) ;
 app.use(cors()) ;
-app.use(express.static('public')) ;
 
 /********************
 *    ENVIRONMENT    *
@@ -23,6 +22,9 @@ const port = 3000 ;
 var users = require('./routes/user') ;
 app.use('/users', users) ;
 
+/*************
+*    PATH    *
+*************/
 app.get('/', function (req, res) {
     console.log('index') ;
 })
