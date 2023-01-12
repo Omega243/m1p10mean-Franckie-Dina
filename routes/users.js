@@ -8,9 +8,10 @@ router.get('/', function(req, res) {
   res.send('respond with a resource');
 });
 
-router.post('/inscription', function(req, res) {
+router.post('/inscription', async function(req, res) {
   console.log(req.body) ;
-  Role.save({intitule: req.body.intitule}).then((result) => res.status(200).json(result)) ;
+  await new Role({intitule: req.body.intitule}).save() ;
+  Role.find({}).then((result) => res.status(200).json(result)) ;
 }) ;
 
 module.exports = router;
