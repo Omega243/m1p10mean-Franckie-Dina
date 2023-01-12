@@ -5,9 +5,9 @@ const express = require('express');
 const app = express();
 const cors = require('cors') ;
 
-/**************
-*    USAGE    *
-**************/
+/*******************
+*    MIDDLEWARE    *
+*******************/
 app.use(express.json()) ;
 app.use(cors()) ;
 
@@ -19,8 +19,7 @@ const port = 3000 ;
 /***************
 *    ROUTES    *
 ***************/
-var users = require('./routes/user') ;
-app.use('/users', users) ;
+app.use('/users', require('./routes/users')) ;
 
 /*************
 *    PATH    *
