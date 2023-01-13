@@ -12,6 +12,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+// import { SendMailComponent } from './pages/send-mail/send-mail.component';
+// import { CarDepotComponent } from './pages/car-depot/car-depot.component';
 
 
 @NgModule({
@@ -28,6 +30,8 @@ import { ComponentsModule } from './components/components.module';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent
+    // SendMailComponent
+    // CarDepotComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

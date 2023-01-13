@@ -1,0 +1,134 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-covercar.jpg); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white">Welcome!</h1>
+        <p class="text-white mt-0 mb-5">Do you want to send mail? Please fill out the form below</p>
+        <a href="#!" class="btn btn-info">View mail</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-profile shadow">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="javascript:void(0)">
+                <img src="assets/img/brand/email.png" class="rounded-circle">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class="d-flex justify-content-between">
+            <a href="javascript:void(0)" class="btn btn-sm btn-info mr-4">View Mailbox</a>
+            <a href="javascript:void(0)" class="btn btn-sm btn-default float-right">New Message</a>
+          </div>
+        </div>
+        <!--  -->
+        <div class="card-body pt-0 pt-md-4">
+          <div class="text-center">
+            <h3>
+              Jessica Jones<span class="font-weight-light">, 27</span>
+            </h3>
+            <div class="h5 font-weight-300">
+              <i class="ni location_pin mr-2"></i>Nice-Sophia Antipolis, France
+            </div>
+            <div class="h5 mt-4">
+              <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Software engineer
+            </div>
+            <div>
+              <i class="ni education_hat mr-2"></i>University of Computer Science
+            </div>
+            <hr class="my-4" />
+            <p>Keep Smile and never give up</p>
+            <a href="javascript:void(0)">Show more</a>
+          </div>
+        </div>
+        <!--  -->
+      </div>
+    </div>
+    <div class="col-xl-8 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">My mail</h3>
+            </div>
+            <div class="col-4 text-right">
+              <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form>
+            <h6 class="heading-small mb-4">Write content here</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <!-- Destinataire -->
+                <div class="col-lg-10">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username">To:</label>
+                    <!-- <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Objet</label> -->
+                    <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Recipient" value="" [(ngModel)]="destinataire">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- Objet -->
+                <div class="col-lg-10">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username">Subject:</label>
+                    <!-- <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Objet</label> -->
+                    <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Subject" value="" [(ngModel)]="objet">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- Description -->
+                <div class="col-lg-10">
+                  <div class="form-group">
+                    <!-- <label>Write content here</label> -->
+                    <label class="form-control-label" for="input-username">Content:</label>
+                    <textarea rows="4" [(ngModel)]="contenu" class="form-control form-control-alternative" placeholder="A few words about your sending information ..."></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- Pièce jointe -->
+                <div class="col-lg-10">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email">Attached file:</label>
+                    <div class="col-sm-12 col-md-12">
+                      <input type="file" class="form-control" multiple="multiple" (change)="onchange($event)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="text-center">
+              <button type="button" class="btn btn-warning my-4" (click)="send()">Send Mail</button>
+            </div>
+
+            <div class="form-group row mb-4" *ngIf="message!=null">
+              <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+              <div class=" alert alert-danger col-sm-12 col-md-7">
+                  {{message}}
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
