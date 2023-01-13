@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 *    PATH    *
 *************/
 app.use('/', require('./routes/index'));
+app.use('/roles', require('./routes/roles'));
 app.use('/users', require('./routes/users'));
 
 app.use(function(req, res, next) {
