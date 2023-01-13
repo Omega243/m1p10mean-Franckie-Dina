@@ -31,7 +31,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this._auth.setDataInLocalStorage('userData', JSON.stringify(res.data));
         this._auth.setDataInLocalStorage('token', res.token);
-        this._router.navigate(['']);
+        this._router.navigate(['/dashboard']);
+        console.log("Bonjouuur! Bienvenue sur votre page d'accueil de notre application web");
+      }else{
+        this.errorMessage = res.errorMessage;
+        console.log("diso");
+        this.errorMessage = "Connection error.";
       }
     })
   }
@@ -42,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   logout(){
     this._auth.clearStorage()
-    this._router.navigate(['']);
+    this._router.navigate(['/login']);
   }
 
   ngOnDestroy() {
