@@ -72,6 +72,22 @@
                 <input class="form-control" placeholder="Password" type="password">
               </div>
             </div>
+            <div class="form-group">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-badge"></i></span>
+                </div>
+                <input class="form-control" placeholder="Contact" type="contact">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                </div>
+                <input class="form-control" placeholder="Role" type="role">
+              </div>
+            </div>
             <p style="color:green;">make sure your password is secure. To do this, it must be 8 characters if possible</p>
             <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">Strong@123&!</span></small></div>
             <div class="row my-4">
@@ -84,12 +100,20 @@
                 </div>
               </div>
             </div>
-            <div class="text-center">
-              <button type="button" class="btn btn-primary mt-4">Create account</button>
+            <div class="text-left">
+              <button type="button" class="btn btn-primary mt-2" routerLinkActive="active" [routerLink]="['/login']">Go to Login page</button>
+            </div>
+            <div class="text-right">
+              <button type="button" class="btn btn-primary mt-2">Create account</button>
             </div>
           </form>
         </div>
       </div>
+      <!-- <div class="row mt-3">
+        <div class="col-6 text-right">
+          <a href="javascript:void(0)" class="text-light" routerLinkActive="active" [routerLink]="['/login']"><small>Go to Login page</small></a>
+        </div>
+      </div> -->
     </div>
   </div>
 </div>
