@@ -7,6 +7,7 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { SendMailComponent } from '../../pages/send-mail/send-mail.component';
+import { UserComponent } from '../../pages/user/user.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -16,4 +17,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
     { path: 'send-mail',      component: SendMailComponent},
+    { path: 'user',           component:  UserComponent},
 ];

@@ -13,6 +13,7 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { SendMailComponent } from '../../pages/send-mail/send-mail.component';
+import { UserComponent } from '../../pages/user/user.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -32,7 +33,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TablesComponent,
     IconsComponent,
     MapsComponent,
-    SendMailComponent
+    SendMailComponent,
+    UserComponent
   ]
 })
 
