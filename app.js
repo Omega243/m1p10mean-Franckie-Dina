@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/roles', require('./routes/roles'));
 app.use('/users', require('./routes/users'));
 app.use('/voitures', require('./routes/voiture'));
+app.use('/etatfiches', require('./routes/etatfiche')) ;
 app.use('/fiches', require('./routes/fiche')) ;
 
 app.use(function(req, res, next) {

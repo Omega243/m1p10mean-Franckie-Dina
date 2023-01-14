@@ -13,7 +13,7 @@ const depot = async(req, res) => {
         const idvoiture = ObjectId(voiture._id) ;
         const iduser = ObjectId('63c15a750a5c84161b2e6201') ;
         const firstStep = await EtatficheService.firstStep() ;
-        const datenow = new Date().now ;
+        const datenow = new Date() ;
         const etat = {
             'etatfiche': ObjectId(firstStep._id) ,
             'dateetat': datenow

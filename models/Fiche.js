@@ -18,7 +18,8 @@ const FicheSchema = new Schema({
       prix: { type: Number, required: true } ,
       description: { type: String, required: false }
     }] ,
-    etatpayement: { type: Number, required: true }
+    etatpayement: { type: Number, required: true } ,
+    datepayement : { type: Date, required: false }
 }) ;
 
 module.exports = mongoose.model("Fiche", FicheSchema) ;
