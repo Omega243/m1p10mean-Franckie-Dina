@@ -1,9 +1,11 @@
 const Role = require("../models/Role") ;
 
+/* LISTE */
 const findAll = async (req, res) => {
     Role.find({}).then((result) => sendResult(res, result)) ;
 } ;
 
+/* ENREGISTREMENT */
 const save = async (req, res) => {
     if (req.body.intitule === '') {
         const error = 'Nom du rôle invalide' ;

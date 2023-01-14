@@ -20,9 +20,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 /*************
 *    PATH    *
 *************/
-app.use('/', require('./routes/index'));
 app.use('/roles', require('./routes/roles'));
 app.use('/users', require('./routes/users'));
+app.use('/voitures', require('./routes/voiture'));
+app.use('/fiches', require('./routes/fiche')) ;
 
 app.use(function(req, res, next) {
   next(createError(404));

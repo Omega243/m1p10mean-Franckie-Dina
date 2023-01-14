@@ -7,9 +7,8 @@ const FicheSchema = new Schema({
     voiture: { type: ObjectId, ref: "Voiture", required: true } ,
     user: { type: ObjectId, ref: "User", required: true } ,
     etat: [{ 
-        intitule: { type: String, required: true } ,
-        dateetat: { type: Date, required: true } ,
-        niveau: { type: Number, required: true }
+        etatfiche: { type: ObjectId, ref: "Etatfiche", required: true } ,
+        dateetat: { type: Date, required: true }
      }] ,
     reparations: [{
       intitule: { type: String, required: true } ,

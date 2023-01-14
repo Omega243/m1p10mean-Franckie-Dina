@@ -1,11 +1,32 @@
 const User = require('../models/User') ;
-const roleClient = require('../service/RoleService') ;
+const roleService = require('../service/RoleService') ;
 
+const jwt = require('jsonwebtoken') ;
 const BCrypt = require('bcrypt') ;
 
+const SECRET_KEY = 'MEAN' ;
+
+/* LOGIN */
+const login = async (req, res) => {
+    // Récupération des données
+    const mail = req.body.mail ;
+    const mdp = req.body.mdp ;
+
+    // Contrôle
+    const user = await logByMail(mail) ;
+    if (user != null) {
+        const correctMdp = await BCrypt.compare(mdp, user.mdp) ;
+        if (correctMdp) {
+            const token = jwt.sign({ mail: user.mail, id: user._id }, SECRET_KEY) ;
+            sendResult(res, { 'token': token, 'role': user.role }) ;
+        } else sendResult(res, { 'error': 'Erreur d\'authentification', 'body': req.body }) ; 
+    } else sendResult(res, { 'error': 'Adresse mail invalide', 'body': req.body }) ;
+} ;
+
+/* INSCRIPTION */
 const inscription = async (req, res) => {
     // Récupération du rôle du client
-    const rc = await roleClient.roleClient().then((result) => { return result } ) ;
+    const rc = await roleService.roleClient().then((result) => { return result } ) ;
 
     // Récupération de la contenue du Body
     const nom = req.body.nom ;
@@ -18,27 +39,29 @@ const inscription = async (req, res) => {
     // Instanciation d'un USER
     const user = new User({nom: nom, prenom: prenom, mail: mail, mdp: mdp, contact: contact, role: role}) ;
 
-    // Contrôle unitaire
+    // Contrôle unitaire et mail
     let error = controleUnitaire(user) ;
     if (error !== '') {
-        const result = {
-            'error': error,
-            'body': req.body
-        } ;
-        sendResult(res, result) ;
+        sendResult(res, { 'error': error, 'body': req.body }) ;
     } else {
-        user.mdp = await BCrypt.hash(req.body.mdp, 10) ;
-        valid = await isMailValid(user) ;
+        const valid = await mailNotExist(user.mail) ;
         if (valid) {
+            user.mdp = await BCrypt.hash(req.body.mdp, 10) ;
             user.save() ;
             sendResult(res, {'success': 'Inscription efféctuée avec succés', 'body': user}) ;
         } else sendResult(res, {'error': 'Cette adresse mail est déjà utilisée', 'body': req.body}) ;
     }
 } ;
 
+/* LOGOUT */
+const logout = async (req, res) => {
+    
+} ;
+
 /*************
  * FUNCTIONS *
  ************/
+// Contrôle inscription
 function controleUnitaire(user) {
     let error = '' ;
     if (user.nom === '') error = 'Nom invalide' ;
@@ -49,8 +72,14 @@ function controleUnitaire(user) {
     return error ;
 }
 
-async function isMailValid(user) {
-    return (User.find({mail: user.mail}).count().then((result) => { return (result == 0) ; })) ;
+// Récupération de l'utilisateur
+async function logByMail(mail) {
+    return User.findOne({mail: mail}).populate('role').then((result) => { return result ; }) ; 
+}
+
+// Controle mail existant
+async function mailNotExist(mail) {
+    return (User.find({mail: mail}).count().then((result) => { return result == 0 ; })) ;
 }
 
 /****************
@@ -61,5 +90,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
-    inscription
+    login ,
+    inscription ,
+    logout
 }
