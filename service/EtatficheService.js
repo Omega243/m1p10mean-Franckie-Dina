@@ -19,7 +19,7 @@ const save = async(req, res) => {
         if (intituleNotE) {
             const niveauNotE = await niveauNotExist(niveau) ;
             if (niveauNotE) {
-                new Etatfiche({'intitule': intitule, 'niveau': niveau, 'description': req.body.description}).save() ;
+                new Etatfiche({'intitule': intitule, 'niveau': niveau, 'description': req.body.description, 'envoimail': req.body.envoimail}).save() ;
                 sendResult(res, {'success': 'Enregistrement effectué avec succés', 'body': req.body}) ;
             } else sendResult(res, {'error': 'Ce niveau existe déjà', 'body': req.body}) ;
         } else {
@@ -31,9 +31,9 @@ const save = async(req, res) => {
 /*************
  * FUNCTIONS *
  ************/
-/* Récupération du premier Etat d'une Fiche */
-const firstStep = async () => {
-    return Etatfiche.findOne({ 'niveau': 0 }).then((result) => { return result }) ;
+/* Récupération d'un état à partir d'un niveau */
+const findByNiveau = async (niveau) => {
+    return Etatfiche.findOne({ 'niveau': niveau}).exec() ;
 }
 
 /* Contrôle si l'intitule existe déjà */
@@ -56,5 +56,5 @@ function sendResult(res, result) {
 module.exports = {
     find ,
     save ,
-    firstStep
+    findByNiveau
 }

@@ -55,7 +55,7 @@ const inscription = async (req, res) => {
 
 /* LOGOUT */
 const logout = async (req, res) => {
-    
+    sendResult({ 'success': 'User logged out', 'body': req.body }) ;
 } ;
 
 /*************
