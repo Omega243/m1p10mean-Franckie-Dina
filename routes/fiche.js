@@ -4,7 +4,7 @@ var router = express.Router();
 const { depot, fiche, listeDepotNonReception } = require('../service/FicheService') ;
 
 /* Dépôt de voiture */
-router.post('/', depot) ;
+router.post('/fiche', depot) ;
 
 /* Détails d'une fiche */
 router.get('/fiche/:id', fiche) ;

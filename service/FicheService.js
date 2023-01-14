@@ -2,27 +2,30 @@ const { ObjectId } = require('mongodb');
 const Fiche = require('../models/Fiche') ;
 
 const { findByMatricule } = require('../service/VoitureService') ;
+const { idNotExist } = require('../service/UserService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
 /* Dépôt de voiture */
 const depot = async(req, res) => {
-    const matricule = req.body.matricule ;
-    const voiture = await findByMatricule(matricule) ;
+    const voiture = await findByMatricule(req.body.matricule) ;
     if (voiture == null) sendResult(res, { 'error': 'Vous devez d\'abord enregistrer cette voiture', 'body': req.body}) ;
     else {
-        const idvoiture = ObjectId(voiture._id) ;
-        const iduser = ObjectId('63c15a750a5c84161b2e6201') ;
-        const firstStep = await EtatficheService.firstStep() ;
-        const datenow = new Date() ;
-        const etat = {
-            'etatfiche': ObjectId(firstStep._id) ,
-            'dateetat': datenow
-        } ;
-
-        const fiche = new Fiche({'datefiche': datenow, 'voiture': idvoiture, 'user': iduser, 'etat': etat, 'reparations': [], 'etatpayement': 0 }) ;
-        console.log(fiche) ;
-
-        sendResult(res, fiche) ;
+        const idNotE = await idNotExist(ObjectId(req.body.iduser)) ;
+        if (idNotE) sendResult(res, { 'error': 'Erreur dans votre authentification', 'body': req.body }) ;
+        else {
+            const idvoiture = ObjectId(voiture._id) ;
+            const iduser = ObjectId(req.body.iduser) ;
+            const datenow = new Date() ;
+            const firstStep = await EtatficheService.firstStep() ;
+            const etat = {
+                'etatfiche': ObjectId(firstStep._id) ,
+                'dateetat': datenow
+            } ;
+    
+            const fiche = new Fiche({'datefiche': datenow, 'voiture': idvoiture, 'user': iduser, 'etat': etat, 'reparations': [], 'etatpayement': 0, 'datepayement': null }) ;
+            fiche.save() ;
+            sendResult(res, { 'success': 'Voiture déposée et Fiche créée avec succés', 'body': fiche}) ;
+        }
     }
 } ;
 

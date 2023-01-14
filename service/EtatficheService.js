@@ -33,7 +33,7 @@ const save = async(req, res) => {
  ************/
 /* Récupération du premier Etat d'une Fiche */
 const firstStep = async () => {
-    return Etatfiche.find({ 'niveau': 0 }).then((result) => { return result }) ;
+    return Etatfiche.findOne({ 'niveau': 0 }).then((result) => { return result }) ;
 }
 
 /* Contrôle si l'intitule existe déjà */
