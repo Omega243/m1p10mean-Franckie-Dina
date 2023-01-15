@@ -76,7 +76,7 @@ const nextStep = async (req, res) => {
             'etatfiche': ObjectId(nextStep._id),
             'dateetat': new Date() 
         }) ;
-        if (nextStep.sendMail != '') sendMail(fiche.user.mail, nextStep.sendMail) ;
+        if (nextStep.sendMail != '') sendMail(fiche.user.mail, nextStep.envoimail) ;
         await fiche.save() ;
         sendResult(res, { 'success': 'Succés, etat de la fiche : '+nextStep.intitule, 'body': fiche }) ;
     }
@@ -147,8 +147,9 @@ const fiche = async (req, res) => {
  ************/
 // Récupérer le prochain état d'une fiche
 async function nextEtat(id) {
-    return Fiche.findOne({'_id': id}).sort({'etat.dateetat': 0}).populate('etat.etatfiche').select('etat.etatfiche').sort('-etat.etatfiche.niveau').exec().then(async (result) => {
-        const etat = await result.etat[0] ;
+    return Fiche.findOne({'_id': id}).sort({'etat.dateetat': 0}).populate('etat.etatfiche').select('etat.etatfiche').exec().then(async (result) => {
+        const indice = result.etat.length - 1 ;
+        const etat = await result.etat[indice] ;
         const nextNiveau = etat.etatfiche.niveau + 1 ;
         const nextState = await EtatficheService.findByNiveau(nextNiveau) ;
         return nextState ;
