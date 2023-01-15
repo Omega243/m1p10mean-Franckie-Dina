@@ -5,10 +5,52 @@ const { findByMatricule } = require('../service/VoitureService') ;
 const { idNotExist } = require('../service/UserService') ;
 const { sendMail } = require('../service/mailService') ;
 const EtatficheService = require('../service/EtatficheService') ;
+const Etatfiche = require('../models/Etatfiche');
+
+/* Supprimer une réparation d'une fiche */
+const deleteEtat = async (req, res) => {
+    let fiche = await Fiche.findOne({ '_id': req.params.id }).exec() ;
+    if (fiche != null) {
+        let find = false ;
+        if (fiche.etat.length == 1) sendResult(res, { 'error': 'Une fiche doit posséder au moins un état', 'body': fiche }) ;
+        else {
+            for (let i=0; i<fiche.etat.length; i++) {
+                if (fiche.etat[i]._id == req.params.idetat) {
+                    fiche.etat.splice(i, 1) ;
+                    find = true ;
+                    break ;
+                }
+            }
+            if (find) {
+                await fiche.save() ;
+                sendResult(res, { 'success': 'Etat supprimé avec succés', 'body': fiche }) ;
+            } else sendResult(res, { 'error': 'Cette état n\'existe pas', 'body': fiche }) ;
+        }
+    } else sendResult(res, { 'error': 'Cette fiche n\'existe pas', 'body': req.body }) ;
+} ;
+
+/* Supprimer une réparation d'une fiche */
+const deleteReparation = async (req, res) => {
+    let fiche = await Fiche.findOne({ '_id': req.params.id }).exec() ;
+    if (fiche != null) {
+        let find = false ;
+        for (let i=0; i<fiche.reparations.length; i++) {
+            if (fiche.reparations[i]._id == req.params.idreparation) {
+                fiche.reparations.splice(i, 1) ;
+                find = true ;
+                break ;
+            }
+        }
+        if (find) {
+            await fiche.save() ;
+            sendResult(res, { 'success': 'Réparation supprimée avec succés', 'body': fiche }) ;
+        } else sendResult(res, { 'error': 'Cette réparation n\'existe pas', 'body': fiche }) ;
+    } else sendResult(res, { 'error': 'Cette fiche n\'existe pas', 'body': req.body }) ;
+} ;
 
 /* Liste des fiches pour un utilisateur */
 const ficheUser = async (req, res) => {
-    const result = await Fiche.find({ 'user': ObjectId(req.params.user) }).populate('voiture').populate('etat').sort('etat.etatfiche.niveau').exec() ;
+    const result = await Fiche.find({ 'user': ObjectId(req.params.user) }).populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
     let fiches = [] ;
     for (const res of result) {
         fiches.push({
@@ -34,8 +76,8 @@ const nextStep = async (req, res) => {
             'etatfiche': ObjectId(nextStep._id),
             'dateetat': new Date() 
         }) ;
-        fiche.save() ;
         if (nextStep.sendMail != '') sendMail(fiche.user.mail, nextStep.sendMail) ;
+        await fiche.save() ;
         sendResult(res, { 'success': 'Succés, etat de la fiche : '+nextStep.intitule, 'body': fiche }) ;
     }
 } ;
@@ -57,13 +99,14 @@ const reparation = async (req, res) => {
             'intitule': req.body.intitule ,
             'datedebut': req.body.datedebut ,
             'datefin': req.body.datefin ,
+            'avancement': 0 ,
             'prix': req.body.prix ,
             'description': req.body.description
         } ;
         const error = controleReparation(reparat) ;
         if (error === '') {
             fiche.reparations.push(reparat) ;
-            fiche.save() ;
+            await fiche.save() ;
             sendResult(res, { 'success': 'Réparation ajoutée avec succés', 'body': fiche }) ;
         } else sendResult(res, { 'error': error, 'body': req.body }) ;
     } else sendResult(res, { 'error': 'Cette fiche n\'exite pas', 'body': req.body }) ;
@@ -99,32 +142,24 @@ const fiche = async (req, res) => {
     else sendResult(res, result) ;
 } ;
 
-/* Liste des fiches (voitures) déposées et non-récéptionnées */
-const listeDepotNonReception = async (req, res) => {
-    const etat1 = req.params.etat1 ;
-    const etat2 = req.params.etat2 ;
-
-    Fiche.find().populate('etat.etatfiche').populate('voiture').populate('user')
-        .where('etat.etatfiche.intitule').in([etat1])
-        .where('etat.etatfiche.intitule').nin([etat2])
-        .sort('etat.dateetat')
-        .select('datefiche voiture etat').then((result) => sendResult(res, result)) ;
-} ;
-
 /*************
  * FUNCTIONS *
  ************/
+// Récupérer le prochain état d'une fiche
+async function nextEtat(id) {
+    return Fiche.findOne({'_id': id}).sort({'etat.dateetat': 0}).populate('etat.etatfiche').select('etat.etatfiche').sort('-etat.etatfiche.niveau').exec().then(async (result) => {
+        const etat = await result.etat[0] ;
+        const nextNiveau = etat.etatfiche.niveau + 1 ;
+        const nextState = await EtatficheService.findByNiveau(nextNiveau) ;
+        return nextState ;
+    }) ;
+}
+
 // Pourcentage d'avancement d'une fiche
 function getAvancement(fiche) {
     let total = 0 ;
     for (const rep of fiche.reparations) total += rep.avancement ;
     return (fiche.reparations.length == 0 ? 100 : total / fiche.reparations.length) ;
-}
-
-// Récupérer le prochain état d'une fiche
-function nextEtat(id) {
-    const currentStepLevel = Fiche.findOne({'_id': id}).populate('etat.etatfiche').select('etat.etatfiche.niveau').exec() ;
-    return EtatficheService.findByNiveau(currentStepLevel.etat.etatfiche.niveau + 1) ;
 }
 
 // Controle de nouvel réparation
@@ -144,6 +179,8 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    deleteEtat ,
+    deleteReparation ,
     ficheUser ,
     getNextStep ,
     nextStep ,

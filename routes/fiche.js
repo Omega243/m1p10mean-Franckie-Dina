@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
+const { deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
 
 /* Liste des fiches pour un utilisateur */
 router.get('/users/:user', ficheUser) ;
@@ -18,7 +18,14 @@ router.post('/:id/reparation', reparation) ;
 /* Récupérer la prochaine étape d'une fiche */
 router.get('/:id/next', getNextStep) ;
 
+/* Supprimer une réparation */
+router.delete('/:id/reparations/:idreparation', deleteReparation) ;
+
+/* Supprimer un état */
+router.delete('/:id/etats/:idetat', deleteEtat) ;
+
 /* Ajouter la prochaine étape à une fiche */
 router.put('/:id/next', nextStep) ;
+
 
 module.exports = router;
