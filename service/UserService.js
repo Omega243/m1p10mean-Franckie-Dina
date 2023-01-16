@@ -18,7 +18,8 @@ const login = async (req, res) => {
         const correctMdp = await BCrypt.compare(mdp, user.mdp) ;
         if (correctMdp) {
             const token = jwt.sign({ mail: user.mail, id: user._id }, SECRET_KEY) ;
-            sendResult(res, { 'token': token, 'role': user.role, 'iduser': user._id }) ;
+            const intitule = user.nom+' '+user.prenom ;
+            sendResult(res, { 'token': token, 'role': user.role, 'intitule': intitule }) ;
         } else sendResult(res, { 'error': 'Erreur d\'authentification', 'body': req.body }) ; 
     } else sendResult(res, { 'error': 'Adresse mail invalide', 'body': req.body }) ;
 } ;

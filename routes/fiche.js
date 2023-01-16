@@ -1,11 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-const { deposeNonReceptionne, updateReparation, paiement, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
+const { vehiculeARecupere, deposeNonReceptionne, updateReparation, paiement, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
 
 /**********
  * CLIENT *
  *********/
+/* Liste des voitures pouvant être récupérées */
+router.get('/users/:iduser/recuperations', vehiculeARecupere) ;
+
 /* Dépôt de voiture */
 router.post('/fiche', depot) ;
 
@@ -39,6 +42,7 @@ router.delete('/:id/etats/:idetat', deleteEtat) ;
 /***********
  * FINANCE *
  **********/
+/* Valider un paiement */
 router.put('/:id/paiement', paiement) ;
 
 /**********

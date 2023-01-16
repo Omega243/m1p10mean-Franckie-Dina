@@ -6,12 +6,20 @@ const { idNotExist } = require('../service/UserService') ;
 const { sendMail } = require('../service/mailService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
+/* Liste des voitures (Fiche) pouvant être récupérée */
+const vehiculeARecupere = async (req, res) => {
+    const niveauArecupere = 5 ;
+    const fiches = await Fiche.find({ 'user': req.params.iduser }).populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
+    const result = getWhereCurrentNiveauEqual(niveauArecupere, fiches) ;
+    sendResult(res, result) ;
+} ;
+
 /* Liste des voitures déposées non-récéptionnées */
 const deposeNonReceptionne = async (req, res) => {
     const fiches = await Fiche.find().populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
     const result = getWhereCurrentNiveauEqual(0, fiches) ;
     sendResult(res, result) ;
-}
+} ;
 
 /* Modification d'une réparation */
 const updateReparation = async (req, res) => {
@@ -112,8 +120,8 @@ const deleteReparation = async (req, res) => {
 
 /* Liste des fiches pour un utilisateur */
 const ficheUser = async (req, res) => {
-    const result = await Fiche.find({ 'user': ObjectId(req.params.user) }).populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
-    const fiches = await getFiches(result) ;
+    const result = await Fiche.find({ 'user': ObjectId(req.params.user) }).populate('user').populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
+    const fiches = getFiches(result) ;
     sendResult(res, fiches) ;
 } ;
 
@@ -127,7 +135,7 @@ const nextStep = async (req, res) => {
             'etatfiche': ObjectId(nextStep._id),
             'dateetat': new Date() 
         }) ;
-        if (nextStep.sendMail != '') sendMail(fiche.user.mail, nextStep.envoimail) ;
+        if (nextStep.envoimail !== '') sendMail(fiche.user.mail, nextStep.envoimail) ;
         await fiche.save() ;
         sendResult(res, { 'success': 'Succés, etat de la fiche : '+nextStep.intitule, 'body': fiche }) ;
     }
@@ -218,6 +226,7 @@ function createFiche(res) {
         '_id': res._id ,
         'datefiche': res.datefiche ,
         'voiture': res.voiture.matricule ,
+        'user': res.user.nom+' '+res.user.prenom ,
         'nbrereparation': res.reparations.length ,
         'montanttotal': getMontantTotal(res) ,
         'etat': res.etat[res.etat.length - 1] ,
@@ -230,7 +239,7 @@ function createFiche(res) {
 async function nextEtat(id) {
     return Fiche.findOne({'_id': id}).sort({'etat.etatfiche.niveau': 1}).populate('etat.etatfiche').select('etat.etatfiche').exec().then(async (result) => {
         const indice = result.etat.length - 1 ;
-        const etat = await result.etat[indice] ;
+        const etat = result.etat[indice] ;
         const nextNiveau = etat.etatfiche.niveau + 1 ;
         const nextState = await EtatficheService.findByNiveau(nextNiveau) ;
         return nextState ;
@@ -252,7 +261,6 @@ function getAvancement(fiche) {
 
 // Controle de nouvel réparation
 function controleReparation(reparat) {
-    console.log(reparat) ;
     if (reparat.intitule === '') return 'Veuillez remplir le champ intitule' ;
     if (reparat.prix === '' || isNaN(reparat.prix) || reparat.prix < 0) return 'Votre prix est incorrect' ;
     if (reparat.datedebut != null && reparat.datefin != null && (new Date(reparat.datedebut).getTime() > new Date(reparat.datefin).getTime())) return 'Date invalide' ;
@@ -267,6 +275,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    vehiculeARecupere ,
     deposeNonReceptionne ,
     updateReparation ,
     paiement ,
