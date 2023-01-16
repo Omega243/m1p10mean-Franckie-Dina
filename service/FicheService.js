@@ -5,7 +5,13 @@ const { findByMatricule } = require('../service/VoitureService') ;
 const { idNotExist } = require('../service/UserService') ;
 const { sendMail } = require('../service/mailService') ;
 const EtatficheService = require('../service/EtatficheService') ;
-const Etatfiche = require('../models/Etatfiche');
+
+/* Historique de fiche pour une voiture */
+const historique = async (req, res) => {
+    const result = await Fiche.find({ 'user': ObjectId(req.params.user), 'voiture': ObjectId(req.params.voiture) }).populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
+    const fiches = getFiches(result) ;
+    sendResult(res, fiches) ;
+} ;
 
 /* Supprimer une réparation d'une fiche */
 const deleteEtat = async (req, res) => {
@@ -51,18 +57,7 @@ const deleteReparation = async (req, res) => {
 /* Liste des fiches pour un utilisateur */
 const ficheUser = async (req, res) => {
     const result = await Fiche.find({ 'user': ObjectId(req.params.user) }).populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
-    let fiches = [] ;
-    for (const res of result) {
-        fiches.push({
-            '_id': res._id ,
-            'datefiche': res.datefiche ,
-            'voiture': res.voiture.matricule ,
-            'nbrereparation': res.reparations.length ,
-            'etat': res.etat[res.etat.length - 1] ,
-            'avancement': getAvancement(res) ,
-            'etatpayement': res.etatpayement
-        }) ;
-    }
+    const fiches = await getFiches(result) ;
     sendResult(res, fiches) ;
 } ;
 
@@ -145,6 +140,23 @@ const fiche = async (req, res) => {
 /*************
  * FUNCTIONS *
  ************/
+function getFiches(result) {
+    let fiches = [] ;
+    for (const res of result) {
+        fiches.push({
+            '_id': res._id ,
+            'datefiche': res.datefiche ,
+            'voiture': res.voiture.matricule ,
+            'nbrereparation': res.reparations.length ,
+            'montanttotal': getMontantTotal(res) ,
+            'etat': res.etat[res.etat.length - 1] ,
+            'avancement': getAvancement(res) ,
+            'etatpayement': res.etatpayement
+        }) ;
+    }
+    return fiches ;
+}
+
 // Récupérer le prochain état d'une fiche
 async function nextEtat(id) {
     return Fiche.findOne({'_id': id}).sort({'etat.dateetat': 0}).populate('etat.etatfiche').select('etat.etatfiche').exec().then(async (result) => {
@@ -157,6 +169,12 @@ async function nextEtat(id) {
 }
 
 // Pourcentage d'avancement d'une fiche
+function getMontantTotal(fiche) {
+    let result = 0 ;
+    for (const reparation of fiche.reparations) result += reparation.prix ;
+    return result ;
+}
+
 function getAvancement(fiche) {
     let total = 0 ;
     for (const rep of fiche.reparations) total += rep.avancement ;
@@ -180,6 +198,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    historique ,
     deleteEtat ,
     deleteReparation ,
     ficheUser ,
