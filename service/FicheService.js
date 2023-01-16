@@ -6,6 +6,55 @@ const { idNotExist } = require('../service/UserService') ;
 const { sendMail } = require('../service/mailService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
+/* Modification d'une réparation */
+const updateReparation = async (req, res) => {
+    const fiche = await Fiche.findOne({ '_id': req.params.id }).exec() ;
+    if (fiche != null) {
+        const reparat = {
+            'intitule': req.body.intitule ,
+            'datedebut': req.body.datedebut ,
+            'datefin': req.body.datefin ,
+            'avancement': req.body.avancement ,
+            'prix': req.body.prix ,
+            'description': req.body.description 
+        } ;
+        const error = controleReparation(reparat) ;
+        if (error === '') {
+            let find = false ;
+            for (let i=0; i<fiche.reparations.length; i++) {
+                if (fiche.reparations[i]._id == req.params.idreparation) {
+                    fiche.reparations[i].intitule = reparat.intitule ;
+                    fiche.reparations[i].datedebut = reparat.datedebut ;
+                    fiche.reparations[i].datefin = reparat.datefin ;
+                    fiche.reparations[i].avancement = reparat.avancement ;
+                    fiche.reparations[i].prix = reparat.prix ;
+                    fiche.reparations[i].description = reparat.description ;
+    
+                    find = true ;
+                    await fiche.save() ;
+                    break ;
+                }
+            }
+            if (find) {
+                await fiche.save() ;
+                sendResult(res, { 'success': 'Réparation modifiée avec succés', 'body': fiche }) ;
+            } else sendResult(res, { 'error': 'Cette réparation n\'existe pas', 'body': fiche }) ;
+        } else sendResult(res, { 'error': error, 'body': req.body }) ;
+    } else sendResult(res, { 'error': 'Cette fiche n\'existe pas', 'body': req.body }) ;
+} ;
+
+/* Valider paiement */
+const paiement = async (req, res) => {
+    const fiche = await Fiche.findOne({ '_id': req.params.id }).exec() ;
+    if (fiche.etatpayement == 1) sendResult(res, { 'error': 'Cette fiche est déjà payée', 'body': req.body }) ;
+    else {
+        fiche.etatpayement = 1 ;
+        fiche.datepayement = new Date() ;
+        await fiche.save() ;
+        sendResult(res, { 'success': 'Validation de paiement effectuée avec succés ce : '+fiche.datepayement, 'body': fiche }) ;
+    }
+} ;
+
 /* Historique de fiche pour une voiture */
 const historique = async (req, res) => {
     const result = await Fiche.find({ 'user': ObjectId(req.params.user), 'voiture': ObjectId(req.params.voiture) }).populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
@@ -159,7 +208,7 @@ function getFiches(result) {
 
 // Récupérer le prochain état d'une fiche
 async function nextEtat(id) {
-    return Fiche.findOne({'_id': id}).sort({'etat.dateetat': 0}).populate('etat.etatfiche').select('etat.etatfiche').exec().then(async (result) => {
+    return Fiche.findOne({'_id': id}).sort({'etat.etatfiche.niveau': 1}).populate('etat.etatfiche').select('etat.etatfiche').exec().then(async (result) => {
         const indice = result.etat.length - 1 ;
         const etat = await result.etat[indice] ;
         const nextNiveau = etat.etatfiche.niveau + 1 ;
@@ -198,6 +247,8 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    updateReparation ,
+    paiement ,
     historique ,
     deleteEtat ,
     deleteReparation ,

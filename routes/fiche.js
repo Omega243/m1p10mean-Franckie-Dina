@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
+const { updateReparation, paiement, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
 
 /**********
  * CLIENT *
@@ -21,6 +21,9 @@ router.get('/users/:user', ficheUser) ;
 /* Ajout de réparation */
 router.post('/:id/reparation', reparation) ;
 
+/* Modification d'une réparation */
+router.put('/:id/reparations/:idreparation', updateReparation) ;
+
 /* Ajouter la prochaine étape à une fiche */
 router.put('/:id/next', nextStep) ;
 
@@ -29,6 +32,11 @@ router.delete('/:id/reparations/:idreparation', deleteReparation) ;
 
 /* Supprimer un état */
 router.delete('/:id/etats/:idetat', deleteEtat) ;
+
+/***********
+ * FINANCE *
+ **********/
+router.put('/:id/paiement', paiement) ;
 
 /**********
  * COMMUN *

@@ -5,7 +5,8 @@ const ObjectId = require("mongodb").ObjectId ;
 const DepenseSchema = new Schema({
     datedepense: { type: Date, required: true } ,
     typedepense: { type: ObjectId, ref: "Typedepense", required: true } ,
-    montant: { type: Number, required: true }
+    montant: { type: Number, required: true } ,
+    description: { type: String, required: false }
 }) ;
 
 module.exports = mongoose.model("Depense", DepenseSchema) ;
