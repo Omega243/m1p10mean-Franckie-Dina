@@ -6,6 +6,13 @@ const { idNotExist } = require('../service/UserService') ;
 const { sendMail } = require('../service/mailService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
+/* Liste des voitures déposées non-récéptionnées */
+const deposeNonReceptionne = async (req, res) => {
+    const fiches = await Fiche.find().populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
+    const result = getWhereCurrentNiveauEqual(0, fiches) ;
+    sendResult(res, result) ;
+}
+
 /* Modification d'une réparation */
 const updateReparation = async (req, res) => {
     const fiche = await Fiche.findOne({ '_id': req.params.id }).exec() ;
@@ -189,21 +196,34 @@ const fiche = async (req, res) => {
 /*************
  * FUNCTIONS *
  ************/
+// Filter depuis fiches les fiches dont le niveau en cours est niveau
+function getWhereCurrentNiveauEqual(niveau, fiches) {
+    let result = [] ;
+    for (const fiche of fiches) {
+        const lastEtat = fiche.etat[fiche.etat.length - 1] ;
+        if (lastEtat.etatfiche.niveau == niveau) result.push(createFiche(fiche)) ;
+    }
+    return result ;
+}
+
+// Création des fiche [Affichage Liste]
 function getFiches(result) {
     let fiches = [] ;
-    for (const res of result) {
-        fiches.push({
-            '_id': res._id ,
-            'datefiche': res.datefiche ,
-            'voiture': res.voiture.matricule ,
-            'nbrereparation': res.reparations.length ,
-            'montanttotal': getMontantTotal(res) ,
-            'etat': res.etat[res.etat.length - 1] ,
-            'avancement': getAvancement(res) ,
-            'etatpayement': res.etatpayement
-        }) ;
-    }
+    for (const res of result) fiches.push(createFiche(res)) ;
     return fiches ;
+}
+
+function createFiche(res) {
+    return {
+        '_id': res._id ,
+        'datefiche': res.datefiche ,
+        'voiture': res.voiture.matricule ,
+        'nbrereparation': res.reparations.length ,
+        'montanttotal': getMontantTotal(res) ,
+        'etat': res.etat[res.etat.length - 1] ,
+        'avancement': getAvancement(res) ,
+        'etatpayement': res.etatpayement
+    } ;
 }
 
 // Récupérer le prochain état d'une fiche
@@ -247,6 +267,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    deposeNonReceptionne ,
     updateReparation ,
     paiement ,
     historique ,

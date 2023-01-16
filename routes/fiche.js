@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { updateReparation, paiement, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
+const { deposeNonReceptionne, updateReparation, paiement, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
 
 /**********
  * CLIENT *
@@ -18,6 +18,9 @@ router.get('/users/:user', ficheUser) ;
 /***********
  * ATELIER *
  **********/
+/* Liste des fiches déposées non-récéptionnées */
+router.get('/deposes/non-receptionnes', deposeNonReceptionne) ;
+
 /* Ajout de réparation */
 router.post('/:id/reparation', reparation) ;
 
