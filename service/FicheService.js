@@ -72,7 +72,7 @@ const paiement = async (req, res) => {
 
 /* Historique de fiche pour une voiture */
 const historique = async (req, res) => {
-    const result = await Fiche.find({ 'user': ObjectId(req.params.user), 'voiture': ObjectId(req.params.voiture) }).populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
+    const result = await Fiche.find({ 'user': ObjectId(req.params.user), 'voiture': ObjectId(req.params.voiture) }).populate('user').populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
     const fiches = getFiches(result) ;
     sendResult(res, fiches) ;
 } ;
