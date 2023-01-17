@@ -6,6 +6,17 @@ const { idNotExist } = require('../service/UserService') ;
 const { sendMail } = require('../service/mailService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
+/* Chiffre d'affaire mensuel */
+const find = async (req, res) => {
+    const mois = req.params.mois ;
+    const annee = req.params.annee ;
+    if (isNaN(mois) || isNaN(annee) || mois <= 0 || annee <= 0 || mois > 12) sendResult(res, { 'error': 'Remplissez les champs correctement', 'body': req.body }) ;
+    else {
+        const result = await chiffreAffaireMensuel(mois, annee) ;
+        sendResult(res, result) ;
+    }
+} ;
+
 /* Liste des voitures (Fiche) pouvant être récupérée */
 const vehiculeARecupere = async (req, res) => {
     const niveauArecupere = 5 ;
@@ -204,6 +215,49 @@ const fiche = async (req, res) => {
 /*************
  * FUNCTIONS *
  ************/
+// Chiffre d'affaire mensuel
+async function chiffreAffaireMensuel(mois, annee) {
+    const affaires = await getAffaireMensuel(mois, annee) ;
+    const fiches = getFiches(affaires) ;
+    let total = 0 ;
+    for (let fiche of fiches) total += fiche.montanttotal ;
+    return {
+        'mois': mois ,
+        'annee': annee ,
+        'total': total ,
+        'fiches': fiches
+    } ;
+}
+
+async function getAffaireMensuel(mois, annee) {
+    const result = Fiche.find({
+        $expr: {
+          $and: [
+            {
+                "etatpayement": 1
+            } ,
+            {
+              "$eq": [
+                {
+                  "$month": "$datepayement"
+                },
+                mois
+              ]
+            } ,
+            {
+              "$eq": [
+                {
+                  "$year": "$datepayement"
+                },
+                annee
+              ]
+            }
+          ]
+        }
+      }).populate('user').populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
+    return result ;
+}
+
 // Filter depuis fiches les fiches dont le niveau en cours est niveau
 function getWhereCurrentNiveauEqual(niveau, fiches) {
     let result = [] ;
@@ -275,6 +329,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    find ,
     vehiculeARecupere ,
     deposeNonReceptionne ,
     updateReparation ,

@@ -26,6 +26,7 @@ app.use('/voitures', require('./routes/voiture'));
 app.use('/etatfiches', require('./routes/etatfiche')) ;
 app.use('/fiches', require('./routes/fiche')) ;
 app.use('/typedepenses', require('./routes/typedepense')) ;
+app.use('/depenses', require('./routes/depense')) ;
 
 app.use(function(req, res, next) {
   next(createError(404));
