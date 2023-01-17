@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { find, vehiculeARecupere, deposeNonReceptionne, updateReparation, paiement, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
+const { vehiculeARecupere, deposeNonReceptionne, updateReparation, paiement, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
 
 /**********
  * CLIENT *
@@ -38,15 +38,6 @@ router.delete('/:id/reparations/:idreparation', deleteReparation) ;
 
 /* Supprimer un état */
 router.delete('/:id/etats/:idetat', deleteEtat) ;
-
-/***********
- * FINANCE *
- **********/
-/* Chiffre d'affaire */
-router.get('/affaires/:mois/:annee', find) ;
-
-/* Valider un paiement */
-router.put('/:id/paiement', paiement) ;
 
 /**********
  * COMMUN *

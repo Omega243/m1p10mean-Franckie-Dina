@@ -7,7 +7,7 @@ const { sendMail } = require('../service/mailService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
 /* Chiffre d'affaire mensuel */
-const find = async (req, res) => {
+const affaire = async (req, res) => {
     const mois = req.params.mois ;
     const annee = req.params.annee ;
     if (isNaN(mois) || isNaN(annee) || mois <= 0 || annee <= 0 || mois > 12) sendResult(res, { 'error': 'Remplissez les champs correctement', 'body': req.body }) ;
@@ -329,7 +329,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
-    find ,
+    affaire ,
     vehiculeARecupere ,
     deposeNonReceptionne ,
     updateReparation ,
