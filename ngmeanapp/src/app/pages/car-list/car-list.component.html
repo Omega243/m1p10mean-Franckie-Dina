@@ -1,0 +1,54 @@
+<!-- <section class="section">
+  <div class="section-header">
+      <h1 class="card-header-title subtitle is-5">
+          List of cars
+      </h1>
+      <div class="section-header-breadcrumb">
+          <div class="breadcrumb-item active"><a [routerLink]="['/dashboard']">Home</a></div>
+          <div class="breadcrumb-item ">List of cars</div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="card col-md-12">
+      <div class="card-header">
+        <h4>Voiture</h4>
+      </div>
+      <div class="card-body">
+        <h2 style="text-align:center;"><strong><u><i>List</i></u></strong></h2>
+        <p-table #dt [columns]="cols" [value]="societes" [paginator]="true" [rows]="5" [first]="first" [rowsPerPageOptions]="[5,15,20,25]" class="table table-hover">
+          <ng-template pTemplate="caption">
+            <div style="text-align: right">
+                <input class="form-control" type="text" pInputText size="50" placeholder="Rechercher" (input)="dt.filterGlobal($any($event).target.value, 'contains')" style="width:auto">
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr class="table-info">
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th style="width: 200px;"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-c>
+              <tr class="table-secondary">
+                  <td><a [routerLink]="['/client/fiche', c.id]"><strong>{{c.nom}}</strong></a></td>
+                  <td>{{c.email}}</td>
+                  <td>
+                    <a class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Modifier" [routerLink]="['/client/modifier', c.id]"><i class="fas fa-pencil-alt"></i></a>
+                    <a class="btn btn-info btn-action mr-1" data-toggle="tooltip" title="Historique" [routerLink]="['/client/mouvement', c.id]" ><i class="fas fa-history"></i></a>
+                  </td>
+              </tr>
+          </ng-template>
+
+      </p-table>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+
+
+
+</section> -->

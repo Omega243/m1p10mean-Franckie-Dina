@@ -6,7 +6,34 @@ export const environment = {
   production: false
 };
 
-export const base_url = '';
+export const base_url = 'http://localhost:3000/';
+export const user = {
+  _id : '',
+  nom : '',
+  prenom : '',
+  mail : '',
+  mdp : '',
+  contact : '',
+  role : ''
+};
+
+// export const userCustomer = {
+//   id : '',
+//   nom : '',
+//   prenom : '',
+//   mail : '',
+//   mdp : '',
+//   contact : ''
+// };
+
+// const UserSchema = new Schema({
+//   nom: { type: String, required: true } ,
+//   prenom: { type: String, required: true } ,
+//   mail: { type: String, required: true } ,
+//   mdp: { type: String, required: true } ,
+//   contact: { type: String, required: true}  ,
+//   role: { type: ObjectId, ref: "Role", required: true }
+// }) ;
 
 /*
  * For easier debugging in development mode, you can import the following file

@@ -8,7 +8,7 @@
 //   constructor() { }
 // }
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { base_url } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
@@ -17,27 +17,25 @@ import { map } from 'rxjs/operators';
 })
 export class ApiService {
 
-  baseUrl = 'http://localhost:4000/';
+  base_url = 'http://localhost:3000/';
 
   constructor(private _http: HttpClient) {
   }
 
-
-
   getTypeRequest(url) {
-    return this._http.get(`${this.baseUrl}${url}`).pipe(map(res => {
+    return this._http.get(`${base_url}${url}`).pipe(map(res => {
       return res;
     }));
   }
 
   postTypeRequest(url, payload) {
-    return this._http.post(`${this.baseUrl}${url}`, payload).pipe(map(res => {
+    return this._http.post(`${base_url}${url}`, payload).pipe(map(res => {
       return res;
     }));
   }
 
   putTypeRequest(url, payload) {
-    return this._http.put(`${this.baseUrl}${url}`, payload).pipe(map(res => {
+    return this._http.put(`${base_url}${url}`, payload).pipe(map(res => {
       return res;
     }));
   }

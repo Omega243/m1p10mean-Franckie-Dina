@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { CarListComponent } from './pages/car-list/car-list.component';
 // import { UserComponent } from './pages/user/user.component';
 // import { SendMailComponent } from './pages/send-mail/send-mail.component';
 // import { CarDepotComponent } from './pages/car-depot/car-depot.component';
@@ -30,7 +31,8 @@ import { ComponentsModule } from './components/components.module';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    CarListComponent
     // UserComponent
     // SendMailComponent
     // CarDepotComponent
