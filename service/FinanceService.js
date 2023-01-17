@@ -1,6 +1,7 @@
 const { chiffreAffaireMensuel } = require('../service/FicheService') ;
 const { depenseMensuel } = require('../service/DepenseService') ;
 
+/* Bilan mensuel */
 const bilan = async (req, res) => {
     const mois = req.params.mois ;
     const annee = req.params.annee ;

@@ -18,7 +18,6 @@ const sendMail = async (sendTo, contenu) => {
         text: contenu
     }, function (err, info) {
         if (err) console.log(err) ;
-        else console.log('We are going to send Mail to => '+sendTo+' <= the content : '+contenu) ;
     }) ;
 }
 

@@ -6,6 +6,44 @@ const { idNotExist } = require('../service/UserService') ;
 const { sendMail } = require('../service/mailService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
+/* Recherche */
+const recherche = async (req, res) => {
+    const body = req.body ;
+    const contraintes = {
+        $and: [
+            {
+                'datefiche': { $gte: body.datedepotinf, $lte: body.datedepotsup }
+            } ,
+            {
+                $or: [
+                    {
+                        'reparations.intitule': { '$regex': body.reparation, $options: 'i' }
+                    } ,
+                    {
+                        'reparations.description': { '$regex': body.reparation, $options: 'i' }
+                    }
+                ]
+            }
+        ]
+    } ;
+    Fiche.find(contraintes).populate('voiture').exec().then((result) => {
+        // Filtre par matricule de véhicule || Etat de payement
+        if (body.matricule != '' || body.etatpayement != '') {
+            for (let i=0; i<result.length; i++) {
+                if (body.matricule != '' && result[i].voiture.matricule != body.matricule) {
+                    result.splice(i, 1) ;
+                    i-- ;
+                }
+                if (body.etatpayement != '' && result[i].etatpayement != body.etatpayement) {
+                    result.splice(i, 1) ;
+                    i-- ;
+                }
+            }
+        }
+        sendResult(res, result) ;
+    }) ;
+} ;
+
 /* Chiffre d'affaire mensuel */
 const affaire = async (req, res) => {
     const mois = req.params.mois ;
@@ -317,7 +355,7 @@ function getAvancement(fiche) {
 function controleReparation(reparat) {
     if (reparat.intitule === '') return 'Veuillez remplir le champ intitule' ;
     if (reparat.prix === '' || isNaN(reparat.prix) || reparat.prix < 0) return 'Votre prix est incorrect' ;
-    if (reparat.datedebut != null && reparat.datefin != null && (new Date(reparat.datedebut).getTime() > new Date(reparat.datefin).getTime())) return 'Date invalide' ;
+    if (reparat.datedebut != null && reparat.datefin != null && reparat.datedebut != '' && reparat.datefin != '' && (new Date(reparat.datedebut).getTime() > new Date(reparat.datefin).getTime())) return 'Date invalide' ;
     return '' ;
 }
 
@@ -329,6 +367,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    recherche ,
     chiffreAffaireMensuel ,
     affaire ,
     vehiculeARecupere ,
