@@ -16,7 +16,25 @@ export const user = {
   contact : '',
   role : ''
 };
+export const voiture = {
+  _id : '',
+  matricule : '',
+  marque : '',
+  type : ''
+};
+export const user_base_url = 'http://localhost:3000/api/user';
 
+// USER: {
+//   getAllUser: 'getalluser',
+//   getUser: 'getuser/:id',
+//   updateUser: 'updatuser/:id',
+//   deleteUser: 'deletuser/:id',
+//   ajoutUser: 'inscription'
+// },
+export const garage_base_url = 'http://localhost:3000/garage/user';
+// VOITURE: {
+
+// }
 // export const userCustomer = {
 //   id : '',
 //   nom : '',

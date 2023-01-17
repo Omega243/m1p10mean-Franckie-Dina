@@ -42,6 +42,27 @@ export class VoitureService {
     return this.http.put(url, voiture, options);
   }
 
+  // REPARATION VOITURE
+  getVoitureAReparer(){
+    var url = base_url+"/car/torepair/";
+    const options = this.tools.formOption(true);
+    return this.http.get(url, options);
+  }
+
+  // HISTORIQUE
+  getHistorique(voiture){
+    var url = base_url+"/car/historique/"+voiture;
+    const options = this.tools.formOption(true);
+    return this.http.get(url, options);
+  }
+
+  // DETAIL FICHE
+  getFilesDetails(){
+    var url = base_url+"/car/details/";
+    const options = this.tools.formOption(true);
+    return this.http.get(url, options);
+  }
+
   // SEARCH
   search(voiture){
     var url =base_url+'/car/search/'+voiture;
