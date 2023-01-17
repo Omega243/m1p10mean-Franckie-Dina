@@ -329,6 +329,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    chiffreAffaireMensuel ,
     affaire ,
     vehiculeARecupere ,
     deposeNonReceptionne ,

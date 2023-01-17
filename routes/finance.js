@@ -3,6 +3,10 @@ var router = express.Router();
 
 const { find, save } = require('../service/DepenseService') ;
 const { affaire, paiement } = require('../service/FicheService') ;
+const { bilan } = require('../service/FinanceService') ;
+
+/* Bilan mensuel */
+router.get('/bilan/:mois/:annee', bilan) ;
 
 /* Liste de toutes les dépenses */
 router.get('/depenses/:mois/:annee', find) ;

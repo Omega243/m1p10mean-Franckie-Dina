@@ -82,5 +82,6 @@ function sendResult(res, result) {
 
 module.exports = {
     find ,
-    save
+    save ,
+    depenseMensuel
 }
