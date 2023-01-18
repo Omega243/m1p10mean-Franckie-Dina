@@ -14,7 +14,7 @@ export class UserComponent implements OnInit {
   roles : any;
 
   idrole : any;
-  email : any;
+  mail : any;
   mdp : any;
 
   id : any;
@@ -53,8 +53,8 @@ export class UserComponent implements OnInit {
       if(response['status']==200){
         this.user = response['data'];
         console.log(this.user);
-        this.email = this.user.email;
-        this.idrole = this.user.idTypeUser;
+        this.mail = this.user.mail;
+        this.idrole = this.user.id;
       } else {
         this.message="ERREUR!";
       }
@@ -67,10 +67,10 @@ export class UserComponent implements OnInit {
   }
 
   ajouter(){
-    if(this.email==null || this.idrole==null || this.mdp==null){
+    if(this.mail==null || this.idrole==null || this.mdp==null){
       this.message = "Tous les champs sont obligatoires.";
     } else {
-      if(!this.email.includes("@")){
+      if(!this.mail.includes("@")){
         this.message = "Email invalide .";
       } else {
         const success = response => {
@@ -85,7 +85,7 @@ export class UserComponent implements OnInit {
         const error = response => {
           this.message = "Erreur de connexion";
         }
-        this.serv.add(this.idrole, this.email, this.mdp).subscribe(success, error);
+        this.serv.add(this.idrole, this.mail, this.mdp).subscribe(success, error);
       }
     }
 
@@ -94,8 +94,8 @@ export class UserComponent implements OnInit {
 
   update(){
     this.user.id = this.id ;
-    this.user.email = this.email ;
-    this.user.idTypeUser = this.idrole;
+    this.user.mail = this.mail ;
+    this.user.id = this.idrole;
     const success = response => {
       if(response['status']==200){
         this.router.navigate(["/user/list"]);

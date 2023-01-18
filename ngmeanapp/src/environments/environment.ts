@@ -22,7 +22,19 @@ export const voiture = {
   marque : '',
   type : ''
 };
-export const user_base_url = 'http://localhost:3000/api/user';
+export const user_base_url = base_url+'users';
+
+export const roles_base_url = base_url+'roles';
+
+export const voitures_base_url = base_url+'voitures';
+
+export const fiches_base_url = base_url+'fiches';
+
+export const typedepenses_base_url = base_url+'typedepenses';
+
+export const finances_base_url = base_url+'finances';
+
+export const etatfiche_base_url = base_url+'etatfiches';
 
 // USER: {
 //   getAllUser: 'getalluser',
@@ -31,7 +43,7 @@ export const user_base_url = 'http://localhost:3000/api/user';
 //   deleteUser: 'deletuser/:id',
 //   ajoutUser: 'inscription'
 // },
-export const garage_base_url = 'http://localhost:3000/garage/user';
+//export const garage_base_url = 'http://localhost:3000/garage/user';
 // VOITURE: {
 
 // }

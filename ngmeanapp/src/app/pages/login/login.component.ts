@@ -85,14 +85,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     console.log('Your form data : ', form.value);
-    this._api.postTypeRequest('user/login', form.value).subscribe((res: any) => {
+    this._api.postTypeRequest('users/login', form.value).subscribe((res: any) => {
 
       if (res.status) {
         const data = res['data'];
         this._auth.setUser(data);
         this._auth.setUser(res.token);
         this._router.navigate(['/dashboard']);
-        console.log("Bonjouuur! Bienvenue sur votre page d'accueil de notre application web");
+        console.log("Hello Success!");
       }else{
         this.message = res.message;
         console.log("diso");

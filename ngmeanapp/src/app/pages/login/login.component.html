@@ -44,8 +44,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input id="email" class="form-control" type="email" #email="ngModel" [class.is-invalid]="email.invalid && email.touched" name="email" placeholder="Email" tabindex="1" ngModel>
-                <div class="invalid-feedback" [class.d-none]="email.valid || email.untouched ">
+                <input id="email" class="form-control" type="mail" #mail="ngModel" [class.is-invalid]="mail.invalid && mail.touched" name="mail" placeholder="Email" tabindex="1" ngModel>
+                <div class="invalid-feedback" [class.d-none]="mail.valid || mail.untouched ">
                   Please fill in your email address.
                 </div>
               </div>
@@ -55,8 +55,8 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
-                <input id="password" class="form-control" placeholder="Password" type="password" #password="ngModel" [class.is-invalid]="password.invalid && password.touched" name="password" tabindex="2" ngModel>
-                <div class="invalid-feedback" [class.d-none]="password.valid || password.untouched ">
+                <input id="password" class="form-control" placeholder="Password" type="password" #mdp="ngModel" [class.is-invalid]="mdp.invalid && mdp.touched" name="mdp" tabindex="2" ngModel>
+                <div class="invalid-feedback" [class.d-none]="mdp.valid || mdp.untouched ">
                   Please fill in your password.
                 </div>
               </div>

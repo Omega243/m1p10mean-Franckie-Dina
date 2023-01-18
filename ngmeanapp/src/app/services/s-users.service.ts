@@ -11,36 +11,36 @@ export class SUsersService {
   constructor(private tools : SToolsService, private http : HttpClient) { }
 
   getList(){
-    var url =base_url+"user/liste";
+    var url =base_url+"users/liste";
     const options = this.tools.formOption(true);
     return this.http.get(url, options);
   }
 
   getRoles(){
-    var url= base_url+"user/role";
+    var url= base_url+"users/role";
     const options = this.tools.formOption(true);
     return this.http.get(url, options);
   }
 
-  add(id: BigInteger , email: string , mdp: string){
+  add(_id: BigInteger , mail: string , mdp: string){
     let input = {
-      idTypeUser : id,
-      email : email,
+      _id : _id,
+      mail : mail,
       mdp : mdp
     }
-    var url= base_url+"user/add";
+    var url= base_url+"users/add";
     return this.http.post(url, input);
   }
 
-  getById(id){
+  getById(_id){
     const options = this.tools.formOption(true);
-    return this.http.get(base_url+"/user/file/"+id,  options);
+    return this.http.get(base_url+"/user/file/"+_id,  options);
   }
 
-  delete(id: any){
+  delete(_id: any){
     console.log("Deleting...");
     const options = this.tools.formOption(true);
-    return this.http.get(base_url+"/user/delete/"+id,  options);
+    return this.http.get(base_url+"/user/delete/"+_id,  options);
   }
 
   update(user){
