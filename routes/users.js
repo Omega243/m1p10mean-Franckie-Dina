@@ -12,4 +12,9 @@ router.post('/inscription', inscription) ;
 /* LOGOUT */
 router.post('/logout', logout) ;
 
+/* TEST */
+router.get('/test', function (req, res) {
+    res.status(200).json('Test works normally !') ;
+}) ;
+
 module.exports = router;

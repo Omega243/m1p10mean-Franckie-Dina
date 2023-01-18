@@ -17,11 +17,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/********************************************************************
+*    LOGIN / INSCRIPTION / LOGOUT DO NOT NEED TOKEN VERIFICATION    *
+********************************************************************/
+app.use('/users', require('./routes/users'));
+
+/***********************
+*    CONTROLE TOKEN    *
+***********************/
+const { controle } = require('./service/ControleService') ;
+app.use('*', controle) ;
+
 /*************
 *    PATH    *
 *************/
 app.use('/roles', require('./routes/roles'));
-app.use('/users', require('./routes/users'));
 app.use('/voitures', require('./routes/voiture'));
 app.use('/etatfiches', require('./routes/etatfiche')) ;
 app.use('/fiches', require('./routes/fiche')) ;
