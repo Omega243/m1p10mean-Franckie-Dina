@@ -27,7 +27,7 @@ const recherche = async (req, res) => {
         ]
     } ;
     Fiche.find(contraintes).populate('voiture').exec().then((result) => {
-        // Filtre par matricule de véhicule || Etat de payement
+        // Filtre par matricule de véhicule && Etat de payement
         if (body.matricule != '' || body.etatpayement != '') {
             for (let i=0; i<result.length; i++) {
                 if (body.matricule != '' && result[i].voiture.matricule != body.matricule) {
@@ -268,16 +268,13 @@ async function chiffreAffaireMensuel(mois, annee) {
 }
 
 async function getAffaireMensuel(mois, annee) {
-    const result = Fiche.find({
+    const result = await Fiche.find({
         $expr: {
           $and: [
             {
-                "etatpayement": 1
-            } ,
-            {
               "$eq": [
                 {
-                  "$month": "$datepayement"
+                  "$month": "$datefiche"
                 },
                 mois
               ]
@@ -285,14 +282,14 @@ async function getAffaireMensuel(mois, annee) {
             {
               "$eq": [
                 {
-                  "$year": "$datepayement"
+                  "$year": "$datefiche"
                 },
                 annee
               ]
             }
           ]
         }
-      }).populate('user').populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
+      }).populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
     return result ;
 }
 
