@@ -4,6 +4,7 @@ const Fiche = require('../models/Fiche') ;
 const { findByMatricule } = require('../service/VoitureService') ;
 const { idNotExist } = require('../service/UserService') ;
 const { sendMail } = require('../service/mailService') ;
+const { saveFacture } = require('../service/FactureService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
 /* Recherche */
@@ -109,13 +110,23 @@ const updateReparation = async (req, res) => {
 
 /* Valider paiement */
 const paiement = async (req, res) => {
-    const fiche = await Fiche.findOne({ '_id': req.params.id }).exec() ;
-    if (fiche.etatpayement == 1) sendResult(res, { 'error': 'Cette fiche est déjà payée', 'body': req.body }) ;
+    if (req.body.remise < 0 || req.body.remise > 100) sendResult(res, { 'error': 'Votre remise est incorrecte', 'body': req.body }) ;
     else {
-        fiche.etatpayement = 1 ;
-        fiche.datepayement = new Date() ;
-        await fiche.save() ;
-        sendResult(res, { 'success': 'Validation de paiement effectuée avec succés ce : '+fiche.datepayement, 'body': fiche }) ;
+        const fiche = await Fiche.findOne({ '_id': req.params.id }).exec() ;
+        if (fiche.etatpayement == 1) sendResult(res, { 'error': 'Cette fiche est déjà payée', 'body': req.body }) ;
+        else {
+            // Enregistrement de la facture
+            const remise = (req.body.remise == '' ? 0 : req.body.remise) ;
+            const montant = getMontantTotal(fiche) ;
+            saveFacture(req.params.id, montant, remise) ;
+
+            // Modification de l'état de paiement de la fiche
+            fiche.etatpayement = 1 ;
+            fiche.datepayement = new Date() ;
+            await fiche.save() ;
+
+            sendResult(res, { 'success': 'Validation de paiement effectuée avec succés ce : '+fiche.datepayement, 'body': fiche }) ;
+        }
     }
 } ;
 
@@ -320,7 +331,8 @@ function createFiche(res) {
         'montanttotal': getMontantTotal(res) ,
         'etat': res.etat[res.etat.length - 1] ,
         'avancement': getAvancement(res) ,
-        'etatpayement': res.etatpayement
+        'etatpayement': res.etatpayement ,
+        'tempsmoyenne': getTempsMoyenneReparation(res)
     } ;
 }
 
@@ -333,6 +345,37 @@ async function nextEtat(id) {
         const nextState = await EtatficheService.findByNiveau(nextNiveau) ;
         return nextState ;
     }) ;
+}
+
+/* Temps de répération moyenne pour une fiche */
+function getTempsMoyenneReparation(fiche) {
+    let tempsTotal = 0 ;
+    for (const reparation of fiche.reparations) {
+        if (reparation.datedebut != '' && reparation.datefin != '') tempsTotal += reparation.datefin.getTime() - reparation.datedebut.getTime() ;
+    }
+    const nbreReparation = fiche.reparations.length ;
+    const tempsMoyenne = (nbreReparation == 0 ? 0 : tempsTotal / nbreReparation) ;
+    return msConversion(tempsMoyenne) ;
+}
+
+function msConversion(millis) {
+    let sec = Math.floor(millis / 1000);
+    let hrs = Math.floor(sec / 3600);
+    sec -= hrs * 3600;
+    let min = Math.floor(sec / 60);
+    sec -= min * 60;
+  
+    sec = '' + sec;
+    sec = ('00' + sec).substring(sec.length);
+  
+    if (hrs > 0) {
+      min = '' + min;
+      min = ('00' + min).substring(min.length);
+      return hrs + ":" + min + ":" + sec;
+    }
+    else {
+      return min + ":" + sec;
+    }
 }
 
 // Pourcentage d'avancement d'une fiche
