@@ -1,19 +1,68 @@
-const { chiffreAffaireMensuel } = require('../service/FicheService') ;
 const { depenseMensuel } = require('../service/DepenseService') ;
+const Facture = require('../models/Facture') ;
 
-/* Chiffre d'affaire journalière */
-const affaireJournaliere = async (req, res) => {
+// Chiffre d'affaire mensuel
+const chiffreAffaireMensuel = async (req, res) => {
     const mois = req.params.mois ;
     const annee = req.params.annee ;
     if (isNaN(mois) || isNaN(annee) || mois <= 0 || annee <= 0 || mois > 12) sendResult(res, { 'error': 'Remplissez les champs correctement', 'body': req.body }) ;
     else {
-        const mensuel = await chiffreAffaireMensuel(mois, annee) ;
+        const result = await chiffreMensuel(mois, annee) ;
+        sendResult(res, result) ;
+    }
+} ;
+
+async function chiffreMensuel(mois, annee) {
+    const factures = await affaireMensuel(mois, annee) ;
+    let total = 0 ;
+    for (const facture of factures) total += facture.montantpayer ;
+    const result = {
+        'mois': mois ,
+        'annee': annee ,
+        'total': total ,
+        'factures': factures
+    } ;
+    return result ;
+}
+
+async function affaireMensuel(mois, annee) {
+    const factures = await Facture.find({
+        $expr: {
+            $and: [
+              {
+                "$eq": [
+                  {
+                    "$month": "$datefacture"
+                  },
+                  mois
+                ]
+              } ,
+              {
+                "$eq": [
+                  {
+                    "$year": "$datefacture"
+                  },
+                  annee
+                ]
+              }
+            ]
+          }
+    }).populate('fiche').exec() ;
+    return factures ;
+} ;
+
+/* Chiffre d'affaire journalière */
+const chiffreAffaireJournaliere = async (req, res) => {
+    const mois = req.params.mois ;
+    const annee = req.params.annee ;
+    if (isNaN(mois) || isNaN(annee) || mois <= 0 || annee <= 0 || mois > 12) sendResult(res, { 'error': 'Remplissez les champs correctement', 'body': req.body }) ;
+    else {
+        const factures = await affaireMensuel(mois, annee) ;
         let monthYearCalendar = createMonthYearCalendar(mois, annee) ;
-        const fiches = mensuel.fiches ;
-        for (const fiche of fiches) {
-            const jour = fiche.datefiche.getDate() ;
-            monthYearCalendar.calendar[jour - 1].total += fiche.montanttotal ;
-            monthYearCalendar.calendar[jour - 1].fiches.push(fiche) ;
+        for (const facture of factures) {
+            const jour = facture.datefacture.getDate() ;
+            monthYearCalendar.calendar[jour - 1].total += facture.montantpayer ;
+            monthYearCalendar.calendar[jour - 1].factures.push(facture) ;
         }
         sendResult(res, monthYearCalendar) ;
     }
@@ -25,7 +74,7 @@ function createMonthYearCalendar(month, year) {
     let calendar = [] ;
     for (let i=0; i<finMois; i++) {
         calendar.push({
-            'fiches': [] ,
+            'factures': [] ,
             'total': 0
         }) ;
     }
@@ -38,11 +87,12 @@ function createMonthYearCalendar(month, year) {
 
 /* Bilan mensuel */
 const bilan = async (req, res) => {
+console.log('Your are in BILAN FUNCTION') ;
     const mois = req.params.mois ;
     const annee = req.params.annee ;
     if (isNaN(mois) || isNaN(annee) || mois <= 0 || annee <= 0 || mois > 12) sendResult(res, { 'error': 'Remplissez les champs correctement', 'body': req.body }) ;
     else {
-        const affaires = await chiffreAffaireMensuel(mois, annee) ;
+        const affaires = await chiffreMensuel(mois, annee) ;
         const depenses = await depenseMensuel(mois, annee) ;
         const diff = affaires.total - depenses.total ;
         const result = {
@@ -67,5 +117,6 @@ function sendResult(res, result) {
 
 module.exports = {
     bilan ,
-    affaireJournaliere
+    chiffreAffaireJournaliere ,
+    chiffreAffaireMensuel
 }

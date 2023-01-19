@@ -45,17 +45,6 @@ const recherche = async (req, res) => {
     }) ;
 } ;
 
-/* Chiffre d'affaire mensuel */
-const affaire = async (req, res) => {
-    const mois = req.params.mois ;
-    const annee = req.params.annee ;
-    if (isNaN(mois) || isNaN(annee) || mois <= 0 || annee <= 0 || mois > 12) sendResult(res, { 'error': 'Remplissez les champs correctement', 'body': req.body }) ;
-    else {
-        const result = await chiffreAffaireMensuel(mois, annee) ;
-        sendResult(res, result) ;
-    }
-} ;
-
 /* Liste des voitures (Fiche) pouvant être récupérée */
 const vehiculeARecupere = async (req, res) => {
     const niveauArecupere = 5 ;
@@ -264,46 +253,6 @@ const fiche = async (req, res) => {
 /*************
  * FUNCTIONS *
  ************/
-// Chiffre d'affaire mensuel
-async function chiffreAffaireMensuel(mois, annee) {
-    const affaires = await getAffaireMensuel(mois, annee) ;
-    const fiches = getFiches(affaires) ;
-    let total = 0 ;
-    for (let fiche of fiches) total += fiche.montanttotal ;
-    return {
-        'mois': mois ,
-        'annee': annee ,
-        'total': total ,
-        'fiches': fiches
-    } ;
-}
-
-async function getAffaireMensuel(mois, annee) {
-    const result = await Fiche.find({
-        $expr: {
-          $and: [
-            {
-              "$eq": [
-                {
-                  "$month": "$datefiche"
-                },
-                mois
-              ]
-            } ,
-            {
-              "$eq": [
-                {
-                  "$year": "$datefiche"
-                },
-                annee
-              ]
-            }
-          ]
-        }
-      }).populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
-    return result ;
-}
-
 // Filter depuis fiches les fiches dont le niveau en cours est niveau
 function getWhereCurrentNiveauEqual(niveau, fiches) {
     let result = [] ;
@@ -408,8 +357,6 @@ function sendResult(res, result) {
 
 module.exports = {
     recherche ,
-    chiffreAffaireMensuel ,
-    affaire ,
     vehiculeARecupere ,
     deposeNonReceptionne ,
     updateReparation ,

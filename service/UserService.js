@@ -17,7 +17,7 @@ const login = async (req, res) => {
     if (user != null) {
         const correctMdp = await BCrypt.compare(mdp, user.mdp) ;
         if (correctMdp) {
-            const token = jwt.sign({ mail: user.mail, id: user._id }, SECRET_KEY) ;
+            const token = jwt.sign({ mail: user.mail, id: user._id, datelogin: new Date().toString() }, SECRET_KEY) ;
             const intitule = user.nom+' '+user.prenom ;
             sendResult(res, { 'token': token, 'role': user.role, 'intitule': intitule }) ;
         } else sendResult(res, { 'error': 'Erreur d\'authentification', 'body': req.body }) ; 

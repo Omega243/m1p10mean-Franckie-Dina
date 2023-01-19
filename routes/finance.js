@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 const { find, save } = require('../service/DepenseService') ;
-const { affaire, paiement } = require('../service/FicheService') ;
-const { bilan, affaireJournaliere } = require('../service/FinanceService') ;
+const { paiement } = require('../service/FicheService') ;
+const { bilan, chiffreAffaireJournaliere, chiffreAffaireMensuel } = require('../service/FinanceService') ;
 
 /* Bilan mensuel */
 router.get('/bilan/:mois/:annee', bilan) ;
 
 /* Chiffre d'affaire journalière */
-router.get('/affaires/journaliers/:mois/:annee', affaireJournaliere) ;
+router.get('/affaires/journaliers/:mois/:annee', chiffreAffaireJournaliere) ;
 
 /* Liste de toutes les dépenses */
 router.get('/depenses/:mois/:annee', find) ;
@@ -18,7 +18,7 @@ router.get('/depenses/:mois/:annee', find) ;
 router.post('/depense', save) ;
 
 /* Chiffre d'affaire mensuel */
-router.get('/affaires/:mois/:annee', affaire) ;
+router.get('/affaires/:mois/:annee', chiffreAffaireMensuel) ;
 
 /* Valider un paiement */
 router.put('/:id/paiement', paiement) ;
