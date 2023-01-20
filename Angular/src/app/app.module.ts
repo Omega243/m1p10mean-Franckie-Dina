@@ -13,7 +13,7 @@ import { FinancierMenuComponent } from './financier-menu/financier-menu.componen
     AppComponent,
     ClientMenuComponent,
     FinancierMenuComponent
-  ],
+],
   imports: [
     BrowserModule,
     AppRoutingModule,

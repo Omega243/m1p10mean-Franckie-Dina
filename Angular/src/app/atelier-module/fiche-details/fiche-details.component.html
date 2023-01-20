@@ -1,0 +1,157 @@
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+      <!-- Menu -->
+      <app-atelier-menu></app-atelier-menu>
+      <!-- Menus -->
+
+      <div class="layout-page">
+
+        <!-- HEADER -->
+        <app-header></app-header>
+        <!-- HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4">Détails d'une fiche</h4>
+
+            <div class="row mb-12">
+              <div class="col-md-6 col-lg-6 mb-6">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title" style="text-decoration: underline;" >A propos de la fiche</h5>
+                      <div class="mb-3 row">
+                        <label for="html5-text-input" class="col-md-4 col-form-label">Date de dépôt</label>
+                        <div class="col-md-8">
+                          <input class="form-control" type="datetime-local" value="{{ datefiche }}" id="html5-text-input" />
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-search-input" class="col-md-4 col-form-label">Client</label>
+                        <div class="col-md-8">
+                          <input class="form-control" type="search" value="{{ user.nom+' '+user.prenom }}" id="html5-search-input" disabled />
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-email-input" class="col-md-4 col-form-label">Date de paiement</label>
+                        <div class="col-md-8">
+                          <input class="form-control" type="datetime-local" value="" id="html5-email-input" disabled />
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6 mb-6">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title" style="text-decoration: underline;" >Voiture</h5>
+                    <div class="mb-3 row">
+                      <label for="html5-text-input" class="col-md-4 col-form-label">Matricule</label>
+                      <div class="col-md-8">
+                        <input class="form-control" type="text" value="{{ voiture.matricule }}" id="html5-text-input" disabled />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-search-input" class="col-md-4 col-form-label">Type</label>
+                      <div class="col-md-8">
+                        <input class="form-control" type="search" value="{{ voiture.type }}" id="html5-search-input" disabled />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-email-input" class="col-md-4 col-form-label">Marque</label>
+                      <div class="col-md-8">
+                        <input class="form-control" type="email" value="{{ voiture.marque }}" id="html5-email-input" disabled />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-12" style="margin-top: 1%" >
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title" style="text-decoration: underline;" >Réparation(s)</h5>
+
+                    <!-- UNE REPARATION -->
+                    <div class="row" *ngFor="let reparation of reparations" style="box-shadow: 0px 1px 6px 1px #AD9999; border-radius: 8px; margin-top: 10px; padding-top: 10px" >
+                      <div class="mb-2 row">
+                        <div class="col-md-2">
+                          Intitule
+                        </div>
+                        <div class="col-md-4">
+                          <input class="form-control" type="text" value="{{ reparation.intitule }}" />
+                        </div>
+                        <div class="col-md-3">
+                          <input class="form-control" type="datetime-local" value="{{ getDateHTML(reparation.datedebut) }}" />
+                        </div>
+                        <div class="col-md-3" >
+                          <input class="form-control" type="datetime-local" value="{{ getDateHTML(reparation.datefin) }}" />
+                        </div>
+                      </div>
+
+                      <div class="mb-2 row">
+                        <div class="col-md-2">
+                          Description
+                        </div>
+                        <div class="col-md-4" style="margin-top: 0.5%">
+                          <textarea class="form-control" style="resize: none;" >{{ reparation.description }}</textarea>
+                        </div>
+                        <div class="col-md-5 row" style="border: 1px solid rgb(100, 100, 100, 0.2); border-radius: 8px; padding-top: 2%; margin: 0.5% 0% 0% 1.75%;" >
+                          <div class="col-md-4">
+                            Avancement
+                          </div>
+                          <div class="col-md-6" style="margin-top: 0.5%">
+                            <input type="range" value="{{ reparation.avancement }}" class="form-range" />
+                          </div>
+                          <div class="col-md-2" id="{{ 'avancement'+reparation._id }}" >
+                            {{ reparation.avancement }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="mb-2 row">
+                        <div class="col-md-2">
+                          Montant
+                        </div>
+                        <div class="col-md-2">
+                          <input type="number" value="{{ reparation.prix }}" class="form-control" id="formRange1" />
+                        </div>
+                        <div class="col-md-1" style="margin-top: 8px" >Ar</div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                          <button class="btn btn-primary" >
+                            <i class="bx bx-check-double"></i>
+                            Enregistrer
+                          </button>
+                        </div>
+                        <div class="col-md-3">
+                          <button class="btn btn-danger" (click)="deleteReparation(reparation._id)" >
+                            <i class="bx bx-trash"></i>
+                            Supprimer
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                    <!-- UNE REPARATION -->
+
+                  </div>
+                </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <app-footer></app-footer>
+  <!-- FOOTER -->
+
+</body>

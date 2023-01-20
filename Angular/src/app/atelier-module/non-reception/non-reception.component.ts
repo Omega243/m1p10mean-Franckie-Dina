@@ -8,6 +8,17 @@ import { Component } from '@angular/core';
 })
 export class NonReceptionComponent {
 
-  constructor(private ficheService: FicheService) {}
+  depotNonReceptions: any;
+
+  constructor (private ficheService: FicheService) {
+    this.getNonReception() ;
+  }
+
+  getNonReception() {
+    this.ficheService.getFicheDeposeNonReceptionne().subscribe((result) => {
+      this.depotNonReceptions = result ;
+      console.log(result) ;
+    }) ;
+  }
 
 }
