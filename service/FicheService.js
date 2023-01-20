@@ -342,8 +342,8 @@ function getAvancement(fiche) {
 
 // Controle de nouvel réparation
 function controleReparation(reparat) {
-    if (reparat.intitule === '') return 'Veuillez remplir le champ intitule' ;
-    if (reparat.prix === '' || isNaN(reparat.prix) || reparat.prix < 0) return 'Votre prix est incorrect' ;
+    if (reparat.intitule === '' || !reparat.intitule) return 'Veuillez remplir le champ intitule' ;
+    if (!reparat.prix || reparat.prix === '' || isNaN(reparat.prix) || reparat.prix < 0) return 'Votre prix est incorrect' ;
     if (reparat.datedebut != null && reparat.datefin != null && reparat.datedebut != '' && reparat.datefin != '' && (new Date(reparat.datedebut).getTime() > new Date(reparat.datefin).getTime())) return 'Date invalide' ;
     return '' ;
 }
