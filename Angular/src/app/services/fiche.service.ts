@@ -17,7 +17,7 @@ export class FicheService {
   constructor(private http: HttpClient) {}
 
   // next Step pour une fiche (Ajouter la prochaine étape à une fiche)
-  next(idFiche: string) {
+  next(idFiche: string): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/'+idFiche+'/next' ;
     return this.http.put(url, {}) ;
   }
@@ -29,7 +29,7 @@ export class FicheService {
   }
 
   // Ajouter une réparation
-  saveReparation(idFiche: string, form: any) {
+  saveReparation(idFiche: string, form: any): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/'+idFiche+'/reparation' ;
     return this.http.post(url, form) ;
   }
@@ -41,13 +41,19 @@ export class FicheService {
   }
 
   // Supprimer une réparation
-  deleteReparation(idFiche: string, idReparation: string) {
+  deleteReparation(idFiche: string, idReparation: string): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/'+idFiche+'/reparations/'+idReparation ;
     return this.http.delete(url) ;
   }
 
+  // Supprimer un état
+  deleteEtat(idFiche: string, idEtat: string): Observable<any> {
+    const url = environment.BASE_URL+environment.fiche_url+'/'+idFiche+'/etats/'+idEtat ;
+    return this.http.delete(url) ;
+  }
+
   // Modifier une réparation
-  updateReparation(idFiche: string, form: any) {
+  updateReparation(idFiche: string, form: any): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/'+idFiche+'/reparations/'+form.id ;
     return this.http.put(url, form) ;
   }

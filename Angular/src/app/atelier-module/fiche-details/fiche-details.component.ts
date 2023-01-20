@@ -27,6 +27,10 @@ export class FicheDetailsComponent {
     prix: 0
   } ;
 
+  // Gestion des erreurs
+  error_saveReparation: string = '' ;
+  error_deleteEtat: string = '' ;
+
   // Form de la réparation
   forms: any[] = [] ;
 
@@ -37,7 +41,7 @@ export class FicheDetailsComponent {
   }
 
   /************
-  * FUNCTIONS *s
+  * FUNCTIONS *
   ************/
   // Récupérer les détails
   getDetails() {
@@ -48,8 +52,12 @@ export class FicheDetailsComponent {
   // Ajouter une réparation
   saveReparation() {
     this.ficheService.saveReparation(this.idFiche, this.nouvelleReparationForm).subscribe((result) => {
-      this.resetNouvelleReparationForm() ;
-      this.showElement() ;
+      if (result.error) this.error_saveReparation = result.error ;
+      else {
+        this.resetNouvelleReparationForm() ;
+        this.error_saveReparation = '' ;
+        this.showElement() ;
+      }
     }) ;
   }
 
@@ -64,6 +72,17 @@ export class FicheDetailsComponent {
   deleteReparation(idReparation: string) {
     this.ficheService.deleteReparation(this.idFiche, idReparation).subscribe((result) => {
       this.showElement() ;
+    }) ;
+  }
+
+  // Supprimer un état
+  deleteEtat(idEtat: string) {
+    this.ficheService.deleteEtat(this.idFiche, idEtat).subscribe((result) => {
+      if (result.error) this.error_deleteEtat = result.error ;
+      else {
+        this.error_deleteEtat = '' ;
+        this.showElement() ;
+      }
     }) ;
   }
 
@@ -88,8 +107,6 @@ export class FicheDetailsComponent {
       this.voiture = result.voiture ;
       this.user = result.user ;
       this.etats = result.etat ;
-
-      console.log(this.etats) ;
 
       // Mise en forme des réparations
       this.forms = [] ;
