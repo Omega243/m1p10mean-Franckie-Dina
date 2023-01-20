@@ -9,6 +9,8 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AtelierMenuComponent ,
@@ -20,7 +22,8 @@ import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 ],
   imports: [
     CommonModule,
-    AtelierModuleRoutingModule
+    AtelierModuleRoutingModule,
+    FormsModule
   ]
 })
 export class AtelierModuleModule { }

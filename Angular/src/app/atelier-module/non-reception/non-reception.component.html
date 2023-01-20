@@ -40,7 +40,7 @@
                         <td>{{ depotNonReception.user }}</td>
                         <td>{{ depotNonReception.datefiche | date: 'dd/MM/yyyy à HH:mm' }}</td>
                         <td>
-                          <button class="btn btn-primary">
+                          <button class="btn btn-primary" (click)="recept(depotNonReception._id)" >
                             Récéptionner
                           </button>
                         </td>
@@ -53,9 +53,9 @@
                               <a class="dropdown-item" [routerLink]="['/atelier/fiche-details/'+depotNonReception._id]" >
                                 <i class="bx bx-edit-alt me-1"></i> Détails
                               </a>
-                              <a class="dropdown-item" href="javascript:void(0);"
-                                ><i class="bx bx-trash me-1"></i> Supprimer</a
-                              >
+                              <a class="dropdown-item" href="javascript:void(0);">
+                                <i class="bx bx-trash me-1"></i> Supprimer
+                              </a>
                             </div>
                           </div>
                         </td>

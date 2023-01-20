@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { FicheService } from './../../services/fiche.service';
 import { Component } from '@angular/core';
 
@@ -10,14 +11,23 @@ export class NonReceptionComponent {
 
   depotNonReceptions: any;
 
-  constructor (private ficheService: FicheService) {
+  constructor (private ficheService: FicheService, private router: Router) { }
+
+  ngOnInit(): void {
     this.getNonReception() ;
   }
 
+  // Récéptionner
+  recept(idFiche: string){
+    this.ficheService.next(idFiche).subscribe((result) => {
+      this.getNonReception() ;
+    }) ;
+  }
+
+  // Liste des fiches déposées non-récéptionnées
   getNonReception() {
     this.ficheService.getFicheDeposeNonReceptionne().subscribe((result) => {
       this.depotNonReceptions = result ;
-      console.log(result) ;
     }) ;
   }
 
