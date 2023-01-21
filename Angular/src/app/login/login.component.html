@@ -65,8 +65,6 @@
             </a>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-2">Bienvenue!</h4>
-          <p class="mb-4">Veuillez vous connecter!</p>
 
           <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
             <div class="mb-3">
@@ -77,18 +75,9 @@
             <div class="mb-3 form-password-toggle">
               <div class="d-flex justify-content-between">
                 <label class="form-label" for="password">Mot de passe</label>
-                <a href="auth-forgot-password-basic.html">
-                  <small>Mot de passe oublié?</small>
-                </a>
               </div>
               <div class="input-group input-group-merge">
-                <input
-                  type="password"
-                  id="password"
-                  class="form-control"
-                  name="password"
-                  placeholder="Votre mot de passe"
-                  aria-describedby="password"
+                <input type="password" [(ngModel)]="form.mdp" class="form-control" name="mdp" placeholder="Votre mot de passe"
                 />
                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
               </div>
@@ -99,17 +88,22 @@
                 <label class="form-check-label" for="remember-me">Se souvenir de moi </label>
               </div>
             </div>
-            <div class="mb-3">
-              <button class="btn btn-primary d-grid w-100" type="submit">Se connecter</button>
-            </div>
 
+            <div class="mb-3">
+              <button class="btn btn-primary d-grid w-100" (click)="login()" >Se connecter</button>
+            </div>
             <div class="mb-3">
               <a [routerLink]="['/inscription']" class="btn btn-success d-grid w-100" type="submit">S'inscrire</a>
             </div>
           </form>
         </div>
+
+        <button *ngIf="logError != ''" class="btn btn-danger d-grid w-100">
+          <i class="bx bx-error"></i>
+          {{ logError }}
+        </button>
+
       </div>
-      <!-- /Register -->
     </div>
   </div>
 </div>

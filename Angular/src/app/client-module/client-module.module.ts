@@ -10,13 +10,17 @@ import { ClientMenuComponent } from './client-menu/client-menu.component';
 
 import { FormsModule } from '@angular/forms';
 import { VehiculeDepotComponent } from './vehicule-depot/vehicule-depot.component';
+import { FichesComponent } from './fiches/fiches.component';
+import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 
 @NgModule({
   declarations: [
     ClientModuleComponent,
     VehiculeSaveComponent,
     ClientMenuComponent,
-    VehiculeDepotComponent
+    VehiculeDepotComponent,
+    FichesComponent,
+    FicheDetailsComponent
   ],
   imports: [
     CommonModule,

@@ -15,6 +15,12 @@ export class FicheService {
 
   constructor(private http: HttpClient) {}
 
+  // Liste des fiches pour un Client
+  ficheClient(iduser: string): Observable<any> {
+    const url = environment.BASE_URL+environment.fiche_url+'/users/'+iduser ;
+    return this.http.get(url) ;
+  }
+
   // next Step pour une fiche (Ajouter la prochaine étape à une fiche)
   next(idFiche: string): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/'+idFiche+'/next' ;

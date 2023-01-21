@@ -66,49 +66,42 @@
             </a>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-2">L'aventure commence maintenant 🚀</h4>
-          <p class="mb-4"></p>
+          <h4 class="mb-2" style="text-decoration: underline" >INSCRIPTION</h4>
 
           <form id="formAuthentication" class="mb-3">
             <div class="mb-3">
               <label for="email" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Votre nom" />
+              <input type="text" [(ngModel)]="form.nom" class="form-control" name="firstname" placeholder="Votre nom" />
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Prénom</label>
-              <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Votre prénom" />
+              <input type="text" [(ngModel)]="form.prenom" class="form-control" name="lastname" placeholder="Votre prénom" />
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="text" class="form-control" id="email" name="email" placeholder="Votre adresse email" />
+              <input type="text" [(ngModel)]="form.mail" class="form-control" name="email" placeholder="Votre adresse email" />
             </div>
             <div class="mb-3 form-password-toggle">
               <label class="form-label" for="password">Mot de passe</label>
               <div class="input-group input-group-merge">
-                <input
-                  type="password"
-                  id="password"
-                  class="form-control"
-                  name="password"
-                  placeholder="Votre mot de passe"
-                  aria-describedby="password"
-                />
-                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                <input type="password" [(ngModel)]="form.mdp" id="password" class="form-control" name="password" placeholder="Votre mot de passe" aria-describedby="password" />
               </div>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Contact</label>
-              <input type="text" class="form-control" id="contact" name="contact" placeholder="Votre contact" />
+              <input type="text" [(ngModel)]="form.contact" class="form-control" name="contact" placeholder="Votre contact" />
             </div>
-
             <button class="btn btn-success d-grid w-100">S'inscrire</button>
           </form>
-
           <a [routerLink]="['/']" class="btn btn-primary d-grid w-100" type="submit">Se connecter</a>
-
         </div>
+
+        <button *ngIf="inscriptionError != ''" class="btn btn-danger d-grid w-100">
+          <i class="bx bx-error"></i>
+          {{ inscriptionError }}
+        </button>
+
       </div>
-      <!-- Register Card -->
     </div>
   </div>
 </div>
