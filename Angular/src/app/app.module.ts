@@ -5,15 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { ClientMenuComponent } from './client-menu/client-menu.component';
-import { FinancierMenuComponent } from './financier-menu/financier-menu.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ClientMenuComponent,
-    FinancierMenuComponent
-],
+    AppComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

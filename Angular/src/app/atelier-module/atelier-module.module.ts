@@ -1,3 +1,5 @@
+import { FooterModule } from './../footer/footer.module';
+import { HeaderModule } from './../header/header.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -5,8 +7,6 @@ import { AtelierModuleRoutingModule } from './atelier-module-routing.module';
 import { AtelierModuleComponent } from './atelier-module.component';
 import { AtelierMenuComponent } from './atelier-menu/atelier-menu.component';
 import { NonReceptionComponent } from './non-reception/non-reception.component';
-import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
 import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 
 import { FormsModule } from '@angular/forms';
@@ -16,14 +16,14 @@ import { FormsModule } from '@angular/forms';
     AtelierMenuComponent ,
     AtelierModuleComponent ,
     NonReceptionComponent ,
-    HeaderComponent ,
-    FooterComponent,
     FicheDetailsComponent
 ],
   imports: [
     CommonModule,
     AtelierModuleRoutingModule,
-    FormsModule
+    FormsModule,
+    HeaderModule,
+    FooterModule
   ]
 })
 export class AtelierModuleModule { }
