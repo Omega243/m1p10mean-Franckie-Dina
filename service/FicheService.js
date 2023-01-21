@@ -222,23 +222,29 @@ const reparation = async (req, res) => {
 
 /* Dépôt de voiture */
 const depot = async(req, res) => {
-    const voiture = await findByMatricule(req.body.matricule) ;
-    if (voiture == null) sendResult(res, { 'error': 'Vous devez d\'abord enregistrer cette voiture', 'body': req.body}) ;
+    if (!req.body.matricule || req.body.matricule == '') sendResult(res, { 'error': 'Le champ matricule est obligatoire', 'body': req.body }) ;
     else {
-        const idNotE = await idNotExist(ObjectId(req.body.iduser)) ;
-        if (idNotE) sendResult(res, { 'error': 'Erreur dans votre authentification', 'body': req.body }) ;
+        if (!req.body.iduser || req.body.iduser == '') sendResult(res, { 'error': 'Vous devez vous connecter', 'body': req.body }) ;
         else {
-            const idvoiture = ObjectId(voiture._id) ;
-            const iduser = ObjectId(req.body.iduser) ;
-            const datenow = new Date() ;
-            const firstStep = await EtatficheService.findByNiveau(0) ;
-            const etat = {
-                'etatfiche': ObjectId(firstStep._id) ,
-                'dateetat': datenow
-            } ;
-            const fiche = new Fiche({'datefiche': datenow, 'voiture': idvoiture, 'user': iduser, 'etat': etat, 'reparations': [], 'etatpayement': 0, 'datepayement': null }) ;
-            fiche.save() ;
-            sendResult(res, { 'success': 'Voiture déposée et Fiche créée avec succés', 'body': fiche}) ;
+            const voiture = await findByMatricule(req.body.matricule) ;
+            if (voiture == null) sendResult(res, { 'error': 'Vous devez d\'abord enregistrer cette voiture', 'body': req.body}) ;
+            else {
+                const idNotE = await idNotExist(ObjectId(req.body.iduser)) ;
+                if (idNotE) sendResult(res, { 'error': 'Erreur dans votre authentification', 'body': req.body }) ;
+                else {
+                    const idvoiture = ObjectId(voiture._id) ;
+                    const iduser = ObjectId(req.body.iduser) ;
+                    const datenow = new Date() ;
+                    const firstStep = await EtatficheService.findByNiveau(0) ;
+                    const etat = {
+                        'etatfiche': ObjectId(firstStep._id) ,
+                        'dateetat': datenow
+                    } ;
+                    const fiche = new Fiche({'datefiche': datenow, 'voiture': idvoiture, 'user': iduser, 'etat': etat, 'reparations': [], 'etatpayement': 0, 'datepayement': null }) ;
+                    fiche.save() ;
+                    sendResult(res, { 'success': 'Voiture déposée et Fiche créée avec succés', 'body': fiche}) ;
+                }
+            }
         }
     }
 } ;
