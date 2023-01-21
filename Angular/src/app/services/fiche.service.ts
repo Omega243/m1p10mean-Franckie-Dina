@@ -11,7 +11,6 @@ export class FicheService {
 
   // URL Rattached with => FICHE <=
   private deposeNonReception_url: string = '/deposes/non-receptionnes' ;
-  private detailsDeFiche: string = '/' ;
   // URL Rattached with => FICHE <=
 
   constructor(private http: HttpClient) {}
@@ -36,7 +35,7 @@ export class FicheService {
 
   // Détails de fiche
   getDetails(id: string): Observable<any> {
-    const url = environment.BASE_URL+environment.fiche_url+this.detailsDeFiche+id ;
+    const url = environment.BASE_URL+environment.fiche_url+'/'+id ;
     return this.http.get(url) ;
   }
 
