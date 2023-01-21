@@ -23,33 +23,33 @@
                 <div class="card h-100">
                   <div class="card-body">
                     <h5 class="card-title" style="text-decoration: underline;" >Information sur le véhicule</h5>
-                      <div class="mb-3 row">
-                        <label for="html5-text-input" class="col-md-4 col-form-label">Numéro matricule du véhicule</label>
-                        <div class="col-md-7">
-                          <input class="form-control" type="text" [(ngModel)]="nouveauForm.matricule" />
-                        </div>
+                    <div class="mb-3 row">
+                      <label for="html5-text-input" class="col-md-4 col-form-label">Numéro matricule du véhicule</label>
+                      <div class="col-md-7">
+                        <input class="form-control" type="text" [(ngModel)]="nouveauForm.matricule" />
                       </div>
-                      <div class="mb-3 row">
-                        <label for="html5-search-input" class="col-md-4 col-form-label">Type du véhicule</label>
-                        <div class="col-md-7">
-                          <input class="form-control" type="text" [(ngModel)]="nouveauForm.type" />
-                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-search-input" class="col-md-4 col-form-label">Type du véhicule</label>
+                      <div class="col-md-7">
+                        <input class="form-control" type="text" [(ngModel)]="nouveauForm.type" />
                       </div>
-                      <div class="mb-3 row">
-                        <label for="html5-email-input" class="col-md-4 col-form-label">Marque du véhicule</label>
-                        <div class="col-md-7">
-                          <input class="form-control" type="text" [(ngModel)]="nouveauForm.marque" />
-                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-email-input" class="col-md-4 col-form-label">Marque du véhicule</label>
+                      <div class="col-md-7">
+                        <input class="form-control" type="text" [(ngModel)]="nouveauForm.marque" />
                       </div>
-                      <div class="mb-3 row">
-                        <label for="html5-email-input" class="col-md-4 col-form-label"></label>
-                        <div class="col-md-7">
-                          <button class="btn btn-primary" (click)="saveVehicule()" >
-                            <i class="bx bxs-car-garage"></i>
-                            Enregistrer le véhicule
-                          </button>
-                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-email-input" class="col-md-4 col-form-label"></label>
+                      <div class="col-md-7">
+                        <button class="btn btn-primary" (click)="saveVehicule()" >
+                          <i class="bx bxs-car-garage"></i>
+                          Déposer le véhicule
+                        </button>
                       </div>
+                    </div>
                   </div>
 
                   <button class="btn btn-success" *ngIf="nouveauSuccess != ''" >

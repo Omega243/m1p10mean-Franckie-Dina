@@ -9,12 +9,14 @@ import { VehiculeSaveComponent } from './vehicule-save/vehicule-save.component';
 import { ClientMenuComponent } from './client-menu/client-menu.component';
 
 import { FormsModule } from '@angular/forms';
+import { VehiculeDepotComponent } from './vehicule-depot/vehicule-depot.component';
 
 @NgModule({
   declarations: [
     ClientModuleComponent,
     VehiculeSaveComponent,
-    ClientMenuComponent
+    ClientMenuComponent,
+    VehiculeDepotComponent
   ],
   imports: [
     CommonModule,
