@@ -13,15 +13,18 @@ const login = async (req, res) => {
     const mdp = req.body.mdp ;
 
     // Contrôle
-    const user = await logByMail(mail) ;
-    if (user != null) {
-        const correctMdp = await BCrypt.compare(mdp, user.mdp) ;
-        if (correctMdp) {
-            const token = jwt.sign({ mail: user.mail, id: user._id, datelogin: new Date().toString() }, SECRET_KEY) ;
-            const intitule = user.nom+' '+user.prenom ;
-            sendResult(res, { 'token': token, 'role': user.role, 'intitule': intitule }) ;
-        } else sendResult(res, { 'error': 'Erreur d\'authentification', 'body': req.body }) ; 
-    } else sendResult(res, { 'error': 'Adresse mail invalide', 'body': req.body }) ;
+    if (!mail || !mdp) sendResult(res, { 'error': 'Erreur d\'authentification', 'body': req.body }) ;
+    else {
+        const user = await logByMail(mail) ;
+        if (user != null) {
+            const correctMdp = await BCrypt.compare(mdp, user.mdp) ;
+            if (correctMdp) {
+                const token = jwt.sign({ mail: user.mail, id: user._id, datelogin: new Date().toString() }, SECRET_KEY) ;
+                const intitule = user.nom+' '+user.prenom ;
+                sendResult(res, { 'token': token, 'role': user.role, 'intitule': intitule }) ;
+            } else sendResult(res, { 'error': 'Erreur d\'authentification', 'body': req.body }) ; 
+        } else sendResult(res, { 'error': 'Adresse mail invalide', 'body': req.body }) ;
+    }
 } ;
 
 /* INSCRIPTION */
@@ -42,9 +45,8 @@ const inscription = async (req, res) => {
 
     // Contrôle unitaire et mail
     let error = controleUnitaire(user) ;
-    if (error !== '') {
-        sendResult(res, { 'error': error, 'body': req.body }) ;
-    } else {
+    if (error !== '') sendResult(res, { 'error': error, 'body': req.body }) ;
+    else {
         const valid = await mailNotExist(user.mail) ;
         if (valid) {
             user.mdp = await BCrypt.hash(req.body.mdp, 10) ;
@@ -65,11 +67,11 @@ const logout = async (req, res) => {
 // Contrôle inscription
 function controleUnitaire(user) {
     let error = '' ;
-    if (user.nom === '') error = 'Nom invalide' ;
-    if (user.prenom === '') error = 'Prenom invalide' ;
-    if (user.mail === '') error = 'Mail invalide' ;
-    if (user.mdp === '') error = 'Mot de passe invalide' ;
-    if (user.contact === '') error = 'Contact invalide' ;
+    if (!user.nom || user.nom === '') error = 'Nom invalide' ;
+    if (!user.prenom || user.prenom === '') error = 'Prenom invalide' ;
+    if (!user.mail || user.mail === '') error = 'Mail invalide' ;
+    if (!user.mdp || user.mdp === '') error = 'Mot de passe invalide' ;
+    if (!user.contact || user.contact === '') error = 'Contact invalide' ;
     return error ;
 }
 
