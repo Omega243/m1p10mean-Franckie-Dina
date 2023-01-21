@@ -10,14 +10,14 @@ const save = async (req, res) => {
     // Contrôle unitaire
     if (!matricule) sendResult(res, { 'error': 'Le champ matricule est obligatoire', 'body': req.body })
     else {
-        const matriculeNotE = await matriculeNotExist(matricule) ;
-        if (matriculeNotE) {
-            if (!marque || !type || marque === '' || type === '') sendResult(res, { 'error': 'Veuillez compléter les champs', 'body': req.body }) ;
-            else {
+        if (!marque || !type || marque === '' || type === '') sendResult(res, { 'error': 'Veuillez compléter les champs', 'body': req.body }) ;
+        else {
+            const matriculeNotE = await matriculeNotExist(matricule) ;
+            if (matriculeNotE) {
                 new Voiture({matricule: matricule, marque: marque, type: type}).save() ;
                 sendResult(res, { 'success': 'Enregistrement effectué avec succés', 'body': req.body }) ;
-            }
-        } else sendResult(res, { 'error': 'Cette matricule est déjà utilisé', 'body': req.body }) ;
+            } else sendResult(res, { 'error': 'Cette matricule est déjà utilisé', 'body': req.body }) ;
+        }
     }
 } ;
 
