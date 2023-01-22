@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { FicheNonpayeComponent } from './fiche-nonpaye/fiche-nonpaye.component';
 import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 import { DepenseHistoriqueComponent } from './depense-historique/depense-historique.component';
+import { ChiffreJournalierComponent } from './chiffre-journalier/chiffre-journalier.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { DepenseHistoriqueComponent } from './depense-historique/depense-histori
     DepenseSaveComponent,
     FicheNonpayeComponent,
     FicheDetailsComponent,
-    DepenseHistoriqueComponent
+    DepenseHistoriqueComponent,
+    ChiffreJournalierComponent
   ],
   imports: [
     CommonModule,

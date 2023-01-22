@@ -26,7 +26,7 @@
                       <label for="html5-text-input" class="col-md-4 col-form-label">Type de dépense</label>
                       <div class="col-md-7">
                         <div class="input-group">
-                          <select class="form-select" >
+                          <select class="form-select" [(ngModel)]="nouveauForm.typedepense" >
                             <option *ngFor="let typedepense of typedepenses" value="{{ typedepense._id }}" >{{ typedepense.intitule }}</option>
                           </select>
                         </div>

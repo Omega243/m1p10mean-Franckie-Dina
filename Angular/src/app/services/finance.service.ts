@@ -10,6 +10,18 @@ export class FinanceService {
 
   constructor(private http: HttpClient) { }
 
+  // Supprimer une dépense
+  deleteDepense(id: string): Observable<any> {
+    const url = environment.BASE_URL+environment.finance_url+'/depenses/'+id+'/delete' ;
+    return this.http.delete(url) ;
+  }
+
+  // Liste des dépenses mensuels
+  depenses(mois: number, annee: number): Observable<any> {
+    const url = environment.BASE_URL+environment.finance_url+'/depenses/'+mois+'/'+annee ;
+    return this.http.get(url) ;
+  }
+
   // Liste des fiches Non-payeés
   fichesNonPaye(): Observable<any> {
     const url = environment.BASE_URL+environment.finance_url+'/fiches/non-paye' ;

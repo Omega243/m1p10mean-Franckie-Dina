@@ -14,7 +14,7 @@ export class DepenseSaveComponent {
   // Formulaire d'une nouvelle dépense
   nouveauForm: any = {
     datedepense: '' ,
-    typedepense: '' ,
+    typedepense: '63cd11c6e1ce79854a90c3fa' ,
     montant: 0 ,
     description: ''
   } ;
