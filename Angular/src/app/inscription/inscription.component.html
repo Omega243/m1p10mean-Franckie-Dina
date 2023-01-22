@@ -62,11 +62,9 @@
                   </g>
                 </svg>
               </span>
-              <span class="app-brand-text demo text-body fw-bolder">Repare car</span>
+              <span class="app-brand-text demo text-body fw-bolder">INSCRIPTION</span>
             </a>
           </div>
-          <!-- /Logo -->
-          <h4 class="mb-2" style="text-decoration: underline" >INSCRIPTION</h4>
 
           <form id="formAuthentication" class="mb-3">
             <div class="mb-3">
@@ -87,13 +85,15 @@
                 <input type="password" [(ngModel)]="form.mdp" id="password" class="form-control" name="password" placeholder="Votre mot de passe" aria-describedby="password" />
               </div>
             </div>
-            <div class="mb-3">
+            <div class="mb-4">
               <label for="email" class="form-label">Contact</label>
               <input type="text" [(ngModel)]="form.contact" class="form-control" name="contact" placeholder="Votre contact" />
             </div>
-            <button class="btn btn-success d-grid w-100">S'inscrire</button>
+            <button class="btn btn-success d-grid w-100" (click)="inscription()" >
+              S'inscrire
+            </button>
           </form>
-          <a [routerLink]="['/']" class="btn btn-primary d-grid w-100" type="submit">Se connecter</a>
+          <a [routerLink]="['/']" class="btn btn-primary d-grid w-100" >Se connecter</a>
         </div>
 
         <button *ngIf="inscriptionError != ''" class="btn btn-danger d-grid w-100">

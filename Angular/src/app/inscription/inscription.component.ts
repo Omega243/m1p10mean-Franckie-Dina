@@ -28,18 +28,8 @@ export class InscriptionComponent {
     this.userService.inscription(this.form).subscribe((result) => {
       if (result.error) this.inscriptionError = result.error ;
       else {
-        // Login automatique
-        const loginForm = {
-          mail: this.form.mail,
-          mdp: this.form.mdp
-        } ;
-        this.userService.login(loginForm).subscribe((result) => {
-          if (result.error) this.inscriptionError = result.error ;
-          else {
-            localStorage.setItem('login', result) ;
-            this.router.navigate(['client']) ;
-          }
-        }) ;
+        localStorage.setItem('login', JSON.stringify(result)) ;
+        this.router.navigate(['client']) ;
       }
     }) ;
   }

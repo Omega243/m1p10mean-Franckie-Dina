@@ -1,1 +1,235 @@
-<p>fiche-details works!</p>
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+      <!-- Menu -->
+      <app-client-menu></app-client-menu>
+      <!-- Menus -->
+
+      <div class="layout-page">
+
+        <!-- HEADER -->
+        <app-header></app-header>
+        <!-- HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4">Détails d'une fiche</h4>
+
+            <div class="row mb-12">
+              <div class="col-md-6 col-lg-6 mb-6">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title" style="text-decoration: underline;" >A propos de la fiche</h5>
+                      <div class="mb-3 row">
+                        <label for="html5-text-input" class="col-md-4 col-form-label">Date de dépôt</label>
+                        <div class="col-md-8">
+                          <input class="form-control" type="datetime-local" value="{{ datefiche }}" id="html5-text-input" disabled />
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-search-input" class="col-md-4 col-form-label">Client</label>
+                        <div class="col-md-8">
+                          <input class="form-control" type="search" value="{{ user.nom+' '+user.prenom }}" id="html5-search-input" disabled />
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="html5-email-input" class="col-md-4 col-form-label">Date de paiement</label>
+                        <div class="col-md-8">
+                          <input class="form-control" type="datetime-local" value="{{ datepayement }}" id="html5-email-input" disabled />
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-6 mb-6">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title" style="text-decoration: underline;" >A propos du véhicule</h5>
+                    <div class="mb-3 row">
+                      <label for="html5-text-input" class="col-md-4 col-form-label">Matricule</label>
+                      <div class="col-md-8">
+                        <input class="form-control" type="text" value="{{ voiture.matricule }}" id="html5-text-input" disabled />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-search-input" class="col-md-4 col-form-label">Type</label>
+                      <div class="col-md-8">
+                        <input class="form-control" type="search" value="{{ voiture.type }}" id="html5-search-input" disabled />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-email-input" class="col-md-4 col-form-label">Marque</label>
+                      <div class="col-md-8">
+                        <input class="form-control" type="email" value="{{ voiture.marque }}" id="html5-email-input" disabled />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-12" style="margin-top: 1%" >
+              <div class="card h-100">
+                <div class="card-body">
+
+                  <h5 class="card-title" style="text-decoration: underline;" >Liste des réparation(s) à effectuer</h5>
+
+                  <!-- UNE REPARATION -->
+                  <div class="row" *ngFor="let reparation of forms; let indexOfelement=index;" style="box-shadow: 0px 1px 6px 1px #AD9999; border-radius: 8px; margin-top: 10px; padding-top: 10px" >
+                    <form>
+                      <div class="mb-2 row">
+                        <div class="col-md-2">
+                          Intitule
+                        </div>
+                        <div class="col-md-4">
+                          <input class="form-control" [(ngModel)]="reparation.intitule" name="intitule" type="text" value="{{ reparation.intitule }}" disabled />
+                        </div>
+                        <div class="col-md-3">
+                          <input class="form-control" [(ngModel)]="reparation.datedebut" name="datedebut" type="datetime-local" value="{{ getDateHTML(reparation.datedebut) }}" disabled />
+                        </div>
+                        <div class="col-md-3" >
+                          <input class="form-control" [(ngModel)]="reparation.datefin" name="datefin" type="datetime-local" value="{{ getDateHTML(reparation.datefin) }}" disabled />
+                        </div>
+                      </div>
+
+                      <div class="mb-2 row">
+                        <div class="col-md-2">
+                          Description
+                        </div>
+                        <div class="col-md-4" style="margin-top: 0.5%">
+                          <textarea class="form-control" [(ngModel)]="reparation.description" name="description" style="resize: none;" disabled >{{ reparation.description }}</textarea>
+                        </div>
+                        <div class="col-md-6 row" style="border: 1px solid rgb(100, 100, 100, 0.2); border-radius: 8px; padding-top: 2%; margin: 0.5% 0% 0% 0%" >
+                          <div class="col-md-4">
+                            Avancement
+                          </div>
+                          <div class="col-md-6" style="margin-top: 0.5%">
+                            <input type="range" [(ngModel)]="reparation.avancement" name="avancement" value="{{ reparation.avancement }}" class="form-range" disabled />
+                          </div>
+                          <div class="col-md-2" >
+                            {{ reparation.avancement }} %
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="mb-2 row">
+                        <div class="col-md-2">
+                          Montant
+                        </div>
+                        <div class="col-md-2">
+                          <input type="text" [(ngModel)]="reparation.prix" name="prix" value="{{ reparation.prix | number }}" class="form-control" id="formRange1" disabled />
+                        </div>
+                        <div class="col-md-2" style="margin-top: 8px" >Ar</div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-2" >
+                          <button class="btn btn-warning" (click)="deleteReparation(reparation.id)" >
+                            Supprimer
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- UNE REPARATION -->
+
+                  <!-- HISTORIQUE des ETATS -->
+                  <h5 class="card-title" style="text-decoration: underline; margin-top: 30px" >Etat(s) de suivie de la fiche</h5>
+
+                  <div class="row" *ngFor="let etat of etats" style="box-shadow: 0px 1px 6px 1px #AD9999; border-radius: 8px; margin-top: 10px; padding-top: 10px; margin-bottom: 10px" >
+                    <form>
+                      <div class="mb-2 row">
+                        <div class="col-md-4">
+                          <input type="text" class="form-control" disabled value="{{ etat.etatfiche.intitule }}" />
+                        </div>
+                        <div class="col-md-3">
+                          <input type="datetime-local" class="form-control" disabled value="{{ getDateHTML(etat.dateetat) }}" />
+                        </div>
+                        <div class="col-md-5">
+                          <input type="text" class="form-control" disabled value="{{ etat.etatfiche.description }}" />
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Récapitulation -->
+            <div class="row mb-12" style="margin-top: 1%" >
+              <div class="card h-100">
+                <div class="card-body">
+
+                  <h5 class="card-title" style="text-decoration: underline;" >Récapitulation de la fiche</h5>
+
+                  <div class="row" style="box-shadow: 0px 1px 6px 1px #AD9999; border-radius: 8px; margin-top: 10px; padding-top: 10px; margin-bottom: 10px" >
+
+                    <div class="mb-2 row">
+                      <div class="col-md-3" style="margin-top: 0.5%">
+                        Etat en cours
+                      </div>
+                      <div class="col-md-5">
+                        <input type="text" class="form-control" disabled value="{{ etatEncours.etatfiche.intitule }}" />
+                      </div>
+                      <div class="col-md-3">
+                        <input type="text" class="form-control" disabled value="{{ getDateHTML(etatEncours.dateetat) }}" />
+                      </div>
+                    </div>
+
+                    <div class="mb-2 row" style="margin-top: 1%">
+                      <div class="col-md-3">
+                        Avancement Global
+                      </div>
+                      <div class="col-md-5" >
+                        <div class="progress" style="margin-top: 2%">
+                          <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
+                            style="width: 50%" >{{ avancementGlobal }}%</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mb-2 row" style="margin-top: 1%">
+                      <div class="col-md-3" style="margin-top: 0.5%">
+                        Temps moyenne de réparation
+                      </div>
+                      <div class="col-md-5" >
+                        <input type="text" class="form-control" value="{{ reparationGlobal.tempsMoyenne }}" disabled />
+                      </div>
+                      <div class="col-md-3" >
+                        <input type="text" class="form-control" value="{{ reparationGlobal.nbre < 10 ? '0'+reparationGlobal.nbre : reparationGlobal.nbre }} Réparation(s)" disabled />
+                      </div>
+                    </div>
+
+                    <div class="mb-2 row" style="margin-top: 1%">
+                      <div class="col-md-3">
+                        Montant total
+                      </div>
+                      <div class="col-md-3" >
+                        <input type="text" class="form-control" value="{{ payement.montanttotal | number }} Ar" disabled />
+                      </div>
+                      <div class="col-md-2" >
+                        <input type="text" class="form-control" value="{{ payement.etat }}" disabled />
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!-- Récapitulation -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <app-footer></app-footer>
+  <!-- FOOTER -->
+
+</body>

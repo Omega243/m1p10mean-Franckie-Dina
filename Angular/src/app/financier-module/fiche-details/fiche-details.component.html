@@ -3,7 +3,7 @@
     <div class="layout-container">
 
       <!-- Menu -->
-      <app-atelier-menu></app-atelier-menu>
+      <app-financier-menu></app-financier-menu>
       <!-- Menus -->
 
       <div class="layout-page">
@@ -25,7 +25,7 @@
                       <div class="mb-3 row">
                         <label for="html5-text-input" class="col-md-4 col-form-label">Date de dépôt</label>
                         <div class="col-md-8">
-                          <input class="form-control" type="datetime-local" value="{{ datefiche }}" id="html5-text-input" />
+                          <input class="form-control" type="datetime-local" value="{{ datefiche }}" id="html5-text-input" disabled />
                         </div>
                       </div>
                       <div class="mb-3 row">
@@ -75,74 +75,6 @@
               <div class="card h-100">
                 <div class="card-body">
 
-                  <!-- UNE NOUVELLE REPARATION -->
-                  <h5 class="card-title" style="text-decoration: underline;" >Enregistrement d'une nouvelle réparation</h5>
-
-                  <div class="row" style="box-shadow: 0px 1px 6px 1px #B1DEE6; border-radius: 8px; margin-top: 10px; padding-top: 10px; margin-bottom: 30px" >
-                    <form>
-                        <div class="mb-2 row">
-                          <div class="col-md-2">
-                            Intitule
-                          </div>
-                          <div class="col-md-4">
-                            <input class="form-control" [(ngModel)]="nouvelleReparationForm.intitule" name="intitule" />
-                          </div>
-                          <div class="col-md-3">
-                            <input class="form-control" [(ngModel)]="nouvelleReparationForm.datedebut" name="datedebut" type="datetime-local" value="{{ getDateHTML(nouvelleReparationForm.datedebut) }}" />
-                          </div>
-                          <div class="col-md-3" >
-                            <input class="form-control" [(ngModel)]="nouvelleReparationForm.datefin" name="datefin" type="datetime-local" value="{{ getDateHTML(nouvelleReparationForm.datefin) }}" />
-                          </div>
-                        </div>
-
-                        <div class="mb-2 row">
-                          <div class="col-md-2">
-                            Description
-                          </div>
-                          <div class="col-md-4" style="margin-top: 0.5%">
-                            <textarea class="form-control" [(ngModel)]="nouvelleReparationForm.description" name="description" style="resize: none;" >{{ nouvelleReparationForm.description }}</textarea>
-                          </div>
-                          <div class="col-md-6 row" style="border: 1px solid rgb(100, 100, 100, 0.2); border-radius: 8px; padding-top: 2%; margin: 0.5% 0% 0% 0%" >
-                            <div class="col-md-4">
-                              Avancement
-                            </div>
-                            <div class="col-md-6" style="margin-top: 0.5%">
-                              <input type="range" [(ngModel)]="nouvelleReparationForm.avancement" name="avancement" value="{{ nouvelleReparationForm.avancement }}" class="form-range" />
-                            </div>
-                            <div class="col-md-2" >
-                              {{ nouvelleReparationForm.avancement }} %
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="mb-2 row">
-                          <div class="col-md-2">
-                            Montant
-                          </div>
-                          <div class="col-md-2">
-                            <input type="number" [(ngModel)]="nouvelleReparationForm.prix" min="0" name="prix" value="{{ nouvelleReparationForm.prix }}" class="form-control" id="formRange1" />
-                          </div>
-                          <div class="col-md-2" style="margin-top: 8px" >Ar</div>
-
-                          <div class="col-md-4">
-                            <button *ngIf="error_saveReparation != ''" class="btn btn-danger" >
-                              <i class="bx bx-error"></i>
-                              {{ error_saveReparation }}
-                            </button>
-                          </div>
-
-                          <div class="col-md-2">
-                            <button class="btn btn-success" (click)="saveReparation()" >
-                              Enregistrer
-                            </button>
-                          </div>
-
-                        </div>
-
-                    </form>
-                  </div>
-                <!-- UNE NOUVELLE REPARATION -->
-
                   <h5 class="card-title" style="text-decoration: underline;" >Liste des réparation(s) à effectuer</h5>
 
                   <!-- UNE REPARATION -->
@@ -153,13 +85,13 @@
                           Intitule
                         </div>
                         <div class="col-md-4">
-                          <input class="form-control" [(ngModel)]="reparation.intitule" name="intitule" type="text" value="{{ reparation.intitule }}" />
+                          <input class="form-control" [(ngModel)]="reparation.intitule" name="intitule" type="text" value="{{ reparation.intitule }}" disabled />
                         </div>
                         <div class="col-md-3">
-                          <input class="form-control" [(ngModel)]="reparation.datedebut" name="datedebut" type="datetime-local" value="{{ getDateHTML(reparation.datedebut) }}" />
+                          <input class="form-control" [(ngModel)]="reparation.datedebut" name="datedebut" type="datetime-local" value="{{ getDateHTML(reparation.datedebut) }}" disabled />
                         </div>
                         <div class="col-md-3" >
-                          <input class="form-control" [(ngModel)]="reparation.datefin" name="datefin" type="datetime-local" value="{{ getDateHTML(reparation.datefin) }}" />
+                          <input class="form-control" [(ngModel)]="reparation.datefin" name="datefin" type="datetime-local" value="{{ getDateHTML(reparation.datefin) }}" disabled />
                         </div>
                       </div>
 
@@ -168,14 +100,14 @@
                           Description
                         </div>
                         <div class="col-md-4" style="margin-top: 0.5%">
-                          <textarea class="form-control" [(ngModel)]="reparation.description" name="description" style="resize: none;" >{{ reparation.description }}</textarea>
+                          <textarea class="form-control" [(ngModel)]="reparation.description" name="description" style="resize: none;" disabled >{{ reparation.description }}</textarea>
                         </div>
                         <div class="col-md-6 row" style="border: 1px solid rgb(100, 100, 100, 0.2); border-radius: 8px; padding-top: 2%; margin: 0.5% 0% 0% 0%" >
                           <div class="col-md-4">
                             Avancement
                           </div>
                           <div class="col-md-6" style="margin-top: 0.5%">
-                            <input type="range" [(ngModel)]="reparation.avancement" name="avancement" value="{{ reparation.avancement }}" class="form-range" />
+                            <input type="range" [(ngModel)]="reparation.avancement" name="avancement" value="{{ reparation.avancement }}" class="form-range" disabled />
                           </div>
                           <div class="col-md-2" >
                             {{ reparation.avancement }} %
@@ -188,15 +120,10 @@
                           Montant
                         </div>
                         <div class="col-md-2">
-                          <input type="number" [(ngModel)]="reparation.prix" name="prix" value="{{ reparation.prix }}" class="form-control" id="formRange1" />
+                          <input type="text" [(ngModel)]="reparation.prix" name="prix" value="{{ reparation.prix | number }}" class="form-control" id="formRange1" disabled />
                         </div>
                         <div class="col-md-2" style="margin-top: 8px" >Ar</div>
-                        <div class="col-md-4">
-                          <button class="btn btn-primary" (click)="updateReparation(indexOfelement)" >
-                            <i class="bx bx-check-double"></i>
-                            Enregistrer
-                          </button>
-                        </div>
+                        <div class="col-md-4"></div>
                         <div class="col-md-2" >
                           <button class="btn btn-warning" (click)="deleteReparation(reparation.id)" >
                             Supprimer
@@ -213,7 +140,7 @@
                   <div class="row" *ngFor="let etat of etats" style="box-shadow: 0px 1px 6px 1px #AD9999; border-radius: 8px; margin-top: 10px; padding-top: 10px; margin-bottom: 10px" >
                     <form>
                       <div class="mb-2 row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                           <input type="text" class="form-control" disabled value="{{ etat.etatfiche.intitule }}" />
                         </div>
                         <div class="col-md-3">
@@ -222,27 +149,9 @@
                         <div class="col-md-5">
                           <input type="text" class="form-control" disabled value="{{ etat.etatfiche.description }}" />
                         </div>
-                        <div class="col-md-2">
-                          <button class="btn btn-warning" (click)="deleteEtat(etat._id)" >
-                            Supprimer
-                          </button>
-                        </div>
                       </div>
                     </form>
                   </div>
-
-                  <!-- Gestion erreur | Suppression d'état  -->
-                  <div *ngIf="error_deleteEtat != ''" class="bs-toast toast fade show bg-danger" role="alert" aria-live="assertive" aria-atomic="true" style="width: 100%; margin-bottom: 2%" >
-                    <div class="toast-header">
-                      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">
-                      <i class="bx bx-error"></i> {{ error_deleteEtat }}
-                    </div>
-                  </div>
-                  <!-- Gestion erreur | Suppression d'état  -->
-
-                  <!-- HISTORIQUE des ETATS -->
 
                 </div>
               </div>

@@ -22,14 +22,12 @@ export class FichesComponent {
     const iduser = login.iduser ;
     this.ficheService.ficheClient(iduser).subscribe((result) => {
       this.fiches = result ;
-      console.log(this.fiches) ;
     }) ;
   }
 
   // Récupérer le width à afficher
   getWidth(avancement: number): string {
     const result = 'style="width: '+avancement+'%"' ;
-    console.log(result) ;
     return result ;
   }
 

@@ -80,15 +80,9 @@
       <span class="menu-header-text">FICHE</span>
     </li>
     <li class="menu-item">
-      <a href="javascript:void(0);" class="menu-link">
+      <a [routerLink]="['/financier']" class="menu-link">
         <i class="menu-icon tf-icons bx bx-credit-card"></i>
         <div data-i18n="Account Settings">Paiement</div>
-      </a>
-    </li>
-    <li class="menu-item">
-      <a href="javascript:void(0);" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-timer"></i>
-        <div data-i18n="Account Settings">Durée de Réparation</div>
       </a>
     </li>
 
@@ -120,7 +114,7 @@
       <span class="menu-header-text">DEPENSE</span>
     </li>
     <li class="menu-item">
-      <a href="javascript:void(0);" class="menu-link">
+      <a [routerLink]="['/financier/depense-save']" class="menu-link">
         <i class="menu-icon tf-icons bx bx-check-double"></i>
         <div data-i18n="Account Settings">Enregistrement</div>
       </a>

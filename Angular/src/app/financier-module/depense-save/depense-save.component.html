@@ -1,52 +1,61 @@
 <body>
-
   <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
 
       <!-- Menu -->
-      <app-client-menu></app-client-menu>
-      <!-- Menu -->
+      <app-financier-menu></app-financier-menu>
+      <!-- Menus -->
 
       <div class="layout-page">
 
-        <!-- Header -->
+        <!-- HEADER -->
         <app-header></app-header>
-        <!-- Header -->
+        <!-- HEADER -->
 
         <!-- CONTENT -->
         <div class="content-wrapper">
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4">Enregistrement d'un nouveau véhicule</h4>
+            <h4 class="fw-bold py-3 mb-4">Enregistrement d'une dépense</h4>
 
             <div class="row mb-12">
               <div class="col-md-12 col-lg-12 mb-12">
                 <div class="card h-100">
                   <div class="card-body">
-                    <h5 class="card-title" style="text-decoration: underline;" >Information sur le véhicule</h5>
+                    <h5 class="card-title" style="text-decoration: underline;" >Information sur la dépense effectuée</h5>
                     <div class="mb-3 row">
-                      <label for="html5-text-input" class="col-md-4 col-form-label">Numéro matricule du véhicule</label>
+                      <label for="html5-text-input" class="col-md-4 col-form-label">Type de dépense</label>
                       <div class="col-md-7">
-                        <input class="form-control" type="text" [(ngModel)]="nouveauForm.matricule" />
+                        <div class="input-group">
+                          <select class="form-select" >
+                            <option *ngFor="let typedepense of typedepenses" value="{{ typedepense._id }}" >{{ typedepense.intitule }}</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="html5-search-input" class="col-md-4 col-form-label">Type du véhicule</label>
+                      <label for="html5-search-input" class="col-md-4 col-form-label">Date de la dépense</label>
                       <div class="col-md-7">
-                        <input class="form-control" type="text" [(ngModel)]="nouveauForm.type" />
+                        <input class="form-control" type="datetime-local" [(ngModel)]="nouveauForm.datedepense" />
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="html5-email-input" class="col-md-4 col-form-label">Marque du véhicule</label>
+                      <label for="html5-email-input" class="col-md-4 col-form-label">Montant de la dépense</label>
                       <div class="col-md-7">
-                        <input class="form-control" type="text" [(ngModel)]="nouveauForm.marque" />
+                        <input class="form-control" type="number" [(ngModel)]="nouveauForm.montant" />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-email-input" class="col-md-4 col-form-label">Description de la dépense</label>
+                      <div class="col-md-7">
+                        <textarea class="form-control" [(ngModel)]="nouveauForm.description" style="resize: none" ></textarea>
                       </div>
                     </div>
                     <div class="mb-3 row">
                       <label for="html5-email-input" class="col-md-4 col-form-label"></label>
                       <div class="col-md-7">
-                        <button class="btn btn-primary" (click)="saveVehicule()" >
-                          <i class="bx bxs-car-garage"></i>
-                          Enregistrer le véhicule
+                        <button class="btn btn-primary" (click)="saveDepense()" >
+                          <i class="bx bxs-money"></i>
+                          Enregistrer la dépense
                         </button>
                       </div>
                     </div>
@@ -69,14 +78,13 @@
           </div>
         </div>
         <!-- CONTENT -->
-
       </div>
 
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <app-footer></app-footer>
-  <!-- Footer -->
+  <!-- FOOTER -->
 
 </body>

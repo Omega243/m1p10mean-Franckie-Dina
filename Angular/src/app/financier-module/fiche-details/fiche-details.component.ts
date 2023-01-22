@@ -1,6 +1,6 @@
+import { FicheService } from 'src/app/services/fiche.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FicheService } from 'src/app/services/fiche.service';
 
 @Component({
   selector: 'app-fiche-details',

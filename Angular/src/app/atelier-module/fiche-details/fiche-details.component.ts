@@ -27,6 +27,18 @@ export class FicheDetailsComponent {
     prix: 0
   } ;
 
+  // Récapitulation
+  avancementGlobal: number = 0 ;
+  etatEncours: any ;
+  payement: any = {
+    etat: '',
+    montanttotal: 0
+  } ;
+  reparationGlobal: any = {
+    nbre: 0 ,
+    tempsMoyenne: ''
+  } ;
+
   // Gestion des erreurs
   error_saveReparation: string = '' ;
   error_deleteEtat: string = '' ;
@@ -43,10 +55,27 @@ export class FicheDetailsComponent {
   /************
   * FUNCTIONS *
   ************/
+  // Show Recapitulation
+  showRecapitulation(): void {
+    this.ficheService.ficheRecapitulation(this.idFiche).subscribe((result) => {
+      this.avancementGlobal = result.avancement ;
+      this.etatEncours = result.etat ;
+      this.payement = {
+        etat: result.etatpayement == 1 ? 'Payé' : 'Non-payé',
+        montanttotal: result.montanttotal
+      } ;
+      this.reparationGlobal = {
+        nbre: result.nbrereparation,
+        tempsMoyenne: result.tempsmoyenne
+      }
+    }) ;
+  }
+
   // Récupérer les détails
-  getDetails() {
+  async getDetails() {
     this.idFiche = this.activated.snapshot.params['id'] ;
     this.showElement() ;
+    this.showRecapitulation() ;
   }
 
   // Ajouter une réparation
@@ -57,6 +86,7 @@ export class FicheDetailsComponent {
         this.resetNouvelleReparationForm() ;
         this.error_saveReparation = '' ;
         this.showElement() ;
+        this.showRecapitulation() ;
       }
     }) ;
   }
@@ -65,6 +95,7 @@ export class FicheDetailsComponent {
   updateReparation(index: number) {
     this.ficheService.updateReparation(this.idFiche, this.forms[index]).subscribe((result) => {
       this.showElement() ;
+      this.showRecapitulation() ;
     }) ;
   }
 
@@ -72,6 +103,7 @@ export class FicheDetailsComponent {
   deleteReparation(idReparation: string) {
     this.ficheService.deleteReparation(this.idFiche, idReparation).subscribe((result) => {
       this.showElement() ;
+      this.showRecapitulation() ;
     }) ;
   }
 
@@ -82,6 +114,7 @@ export class FicheDetailsComponent {
       else {
         this.error_deleteEtat = '' ;
         this.showElement() ;
+        this.showRecapitulation() ;
       }
     }) ;
   }

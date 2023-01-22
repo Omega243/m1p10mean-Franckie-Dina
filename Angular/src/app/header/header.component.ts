@@ -7,4 +7,14 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+  // Header Content [Account]
+  intitule: string = '' ;
+  role: string = '' ;
+
+  ngOnInit(): void {
+    const login = JSON.parse(localStorage.getItem('login')!) ;
+    this.intitule = login.intitule ;
+    this.role = login.role.intitule ;
+  }
+
 }

@@ -20,6 +20,12 @@ export class VehiculeDepotComponent {
 
   constructor (private voitureService: VoitureService) { }
 
+  // Init The IdUser
+  ngOnInit(): void {
+    const login = JSON.parse(localStorage.getItem('login')!) ;
+    this.depotForm.iduser = login.iduser ;
+  }
+
   // Dépôt de véhicule
   depotVehicule() {
     this.voitureService.depotVehicule(this.depotForm).subscribe((result) => {
