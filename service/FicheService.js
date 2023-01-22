@@ -7,6 +7,15 @@ const { sendMail } = require('../service/mailService') ;
 const { saveFacture } = require('../service/FactureService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
+/* Liste des fiches RECEPTIONNEES */
+const ficheReception = async (req, res) => {
+    let liste = [] ;
+    const result = await Fiche.find().populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
+    const fiches = await getFiches(fiches) ;
+    for (const fiche of fiches) if (fiche.etat.etatfiche.niveau > 0) liste.push(fiche) ;
+    sendResult(res, liste) ;
+} ;
+
 /* Fiche non-payée */
 const ficheNonPaye = async (req, res) => {
     const fiches = await Fiche.find({ 'etatpayement': 0 }).populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
@@ -113,22 +122,25 @@ const updateReparation = async (req, res) => {
 
 /* Valider paiement */
 const paiement = async (req, res) => {
-    if (req.body.remise < 0 || req.body.remise > 100) sendResult(res, { 'error': 'Votre remise est incorrecte', 'body': req.body }) ;
+    if (!req.body.datepaiement) sendResult(res, { 'error': 'Date de paiement invalide', 'body': req.body }) ;
     else {
-        const fiche = await Fiche.findOne({ '_id': req.params.id }).exec() ;
-        if (fiche.etatpayement == 1) sendResult(res, { 'error': 'Cette fiche est déjà payée', 'body': req.body }) ;
+        if (!req.body.remise || req.body.remise < 0 || req.body.remise > 100) sendResult(res, { 'error': 'Votre remise est incorrecte', 'body': req.body }) ;
         else {
-            // Enregistrement de la facture
-            const remise = (req.body.remise == '' ? 0 : req.body.remise) ;
-            const montant = getMontantTotal(fiche) ;
-            saveFacture(req.params.id, montant, remise) ;
+            const fiche = await Fiche.findOne({ '_id': req.params.id }).exec() ;
+            if (fiche.etatpayement == 1) sendResult(res, { 'error': 'Cette fiche est déjà payée', 'body': req.body }) ;
+            else {
+                // Enregistrement de la facture
+                const remise = (req.body.remise == '' ? 0 : req.body.remise) ;
+                const montant = getMontantTotal(fiche) ;
+                saveFacture(req.params.id, montant, remise, req.body.datepaiement) ;
 
-            // Modification de l'état de paiement de la fiche
-            fiche.etatpayement = 1 ;
-            fiche.datepayement = new Date() ;
-            await fiche.save() ;
+                // Modification de l'état de paiement de la fiche
+                fiche.etatpayement = 1 ;
+                fiche.datepayement = req.body.datepaiement ;
+                await fiche.save() ;
 
-            sendResult(res, { 'success': 'Validation de paiement effectuée avec succés ce : '+fiche.datepayement, 'body': fiche }) ;
+                sendResult(res, { 'success': 'Validation de paiement effectuée avec succés ce : '+fiche.datepayement, 'body': fiche }) ;
+            }
         }
     }
 } ;
@@ -376,6 +388,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    ficheReception ,
     ficheNonPaye ,
     recapitule ,
     recherche ,

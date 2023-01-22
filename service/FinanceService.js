@@ -87,7 +87,6 @@ function createMonthYearCalendar(month, year) {
 
 /* Bilan mensuel */
 const bilan = async (req, res) => {
-console.log('Your are in BILAN FUNCTION') ;
     const mois = req.params.mois ;
     const annee = req.params.annee ;
     if (isNaN(mois) || isNaN(annee) || mois <= 0 || annee <= 0 || mois > 12) sendResult(res, { 'error': 'Remplissez les champs correctement', 'body': req.body }) ;
