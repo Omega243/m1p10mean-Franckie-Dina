@@ -11,8 +11,8 @@ const EtatficheService = require('../service/EtatficheService') ;
 const ficheReception = async (req, res) => {
     let liste = [] ;
     const result = await Fiche.find().populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
-    const fiches = await getFiches(fiches) ;
-    for (const fiche of fiches) if (fiche.etat.etatfiche.niveau > 0) liste.push(fiche) ;
+    const fiches = await getFiches(result) ;
+    for (const fiche of fiches) if (fiche.etat.etatfiche.niveau > 0 && fiche.etat.etatfiche.niveau < 3) liste.push(fiche) ;
     sendResult(res, liste) ;
 } ;
 
