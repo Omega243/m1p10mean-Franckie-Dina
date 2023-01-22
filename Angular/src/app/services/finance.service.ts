@@ -10,6 +10,22 @@ export class FinanceService {
 
   constructor(private http: HttpClient) { }
 
+  // Validation de paiement
+  validePaiement(idFiche: string, remise: number, datepaiement: string): Observable<any> {
+    const url = environment.BASE_URL+environment.finance_url+'/'+idFiche+'/paiement' ;
+    const form = {
+      remise: remise,
+      datepaiement: datepaiement
+    } ;
+    return this.http.put(url, form) ;
+  }
+
+  // Chiffre d'affaire journallier
+  chiffrejournalier(mois: number, annee: number): Observable<any> {
+    const url = environment.BASE_URL+environment.finance_url+'/affaires/journaliers/'+mois+'/'+annee ;
+    return this.http.get(url) ;
+  }
+
   // Supprimer une dépense
   deleteDepense(id: string): Observable<any> {
     const url = environment.BASE_URL+environment.finance_url+'/depenses/'+id+'/delete' ;

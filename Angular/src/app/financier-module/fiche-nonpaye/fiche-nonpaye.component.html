@@ -17,6 +17,16 @@
           <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4">Validation de paiement</h4>
 
+            <button *ngIf="paiementError != ''" class="btn btn-danger" style="width: 100%; text-align: center; margin-bottom:1%">
+              <i class="bx bx-error"></i>
+              {{ paiementError }}
+            </button>
+
+            <button *ngIf="paiementSuccess != ''" class="btn btn-success" style="width: 100%; text-align: center; margin-bottom:1%">
+              <i class="bx bx-check-double"></i>
+              {{ paiementSuccess }}
+            </button>
+
             <!-- Table -->
             <div class="card">
               <h5 class="card-header">Tableau récapitulatif</h5>
@@ -34,17 +44,73 @@
                   </thead>
                   <tbody class="table-border-bottom-0">
 
-                    <tr *ngFor="let fiche of fiches" >
+                    <tr *ngFor="let fiche of fiches; let indexFiche=index" >
                       <td>
                         <i class="fa fa-user me-1"></i> <strong>{{ fiche.voiture }}</strong>
                       </td>
                       <td>{{ fiche.user }}</td>
                       <td>{{ fiche.datefiche | date: 'dd/MM/yyyy à HH:mm' }}</td>
-                      <td>{{ fiche.montanttotal }}</td>
+                      <td>{{ fiche.montanttotal | number }} Ar</td>
                       <td>
-                        <button class="btn btn-primary" (click)="validePaiement(fiche._id)" >
+                        <button class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="'#demo'+fiche._id" >
                           Valider
                         </button>
+
+                        <div class="modal fade" [attr.id]="'demo'+fiche._id" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="modalCenterTitle">Validation de paiement</h5>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="row">
+                                  <div class="col mb-3">
+                                    <label class="form-label">Montant total (Ar)</label>
+                                    <input type="number" class="form-control" value="{{ fiche.montanttotal }}" disabled />
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col md-8">
+                                    <label class="form-label">Remise : {{ remises[indexFiche].remise }}%</label><br>
+                                    <input [(ngModel)]="remises[indexFiche].remise" (change)="changeRemise(indexFiche)" type="range" class="form-range" style="margin-top: 1%" />
+                                  </div>
+                                  <div class="col md-4">
+                                    <label class="form-label">Montant de la remise</label>
+                                    <input [(ngModel)]="remises[indexFiche].montantremise" type="number" id="dobWithTitle" class="form-control" disabled />
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col mb-3">
+                                    <label class="form-label">Montant à payer (Ar)</label>
+                                    <input [(ngModel)]="remises[indexFiche].montantapayer" type="number" class="form-control" disabled />
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col mb-3">
+                                    <label class="form-label">Date de paiement</label>
+                                    <input [(ngModel)]="remises[indexFiche].datepaiement" type="datetime-local" class="form-control" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" >
+                                  Annuler
+                                </button>
+                                <button type="button" class="btn btn-primary" (click)="validePaiement(fiche._id, indexFiche)" data-bs-dismiss="modal" >
+                                  Valider paiement
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
                       </td>
                       <td>
                         <a class="dropdown-item" [routerLink]="['/financier/fiche-details/'+fiche._id]" >

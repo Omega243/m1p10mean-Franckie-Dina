@@ -86,13 +86,6 @@ export class FicheDetailsComponent {
     }) ;
   }
 
-  // Supprimer une réparation
-  deleteReparation(idReparation: string) {
-    this.ficheService.deleteReparation(this.idFiche, idReparation).subscribe((result) => {
-      this.showElement() ;
-    }) ;
-  }
-
   // Format the Date
   getDateHTML(value: any): string {
     if (value) {

@@ -33,6 +33,7 @@ export class VehiculeDepotComponent {
         this.depotError = result.error ;
         this.depotSuccess = '' ;
       } else {
+        this.depotError = '' ;
         this.depotSuccess = result.success ;
         this.resetDepotForm() ;
       }
