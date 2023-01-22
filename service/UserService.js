@@ -1,5 +1,6 @@
 const User = require('../models/User') ;
 const roleService = require('../service/RoleService') ;
+const { sendMail } = require('../service/mailService') ;
 
 const jwt = require('jsonwebtoken') ;
 const BCrypt = require('bcrypt') ;
@@ -21,7 +22,7 @@ const login = async (req, res) => {
             if (correctMdp) {
                 const token = jwt.sign({ mail: user.mail, id: user._id, datelogin: new Date().toString() }, SECRET_KEY) ;
                 const intitule = user.nom+' '+user.prenom ;
-                sendResult(res, { 'token': token, 'role': user.role, 'intitule': intitule }) ;
+                sendResult(res, { token: token, role: user.role, intitule: intitule, iduser: user._id }) ;
             } else sendResult(res, { 'error': 'Erreur d\'authentification', 'body': req.body }) ; 
         } else sendResult(res, { 'error': 'Adresse mail invalide', 'body': req.body }) ;
     }
@@ -49,9 +50,16 @@ const inscription = async (req, res) => {
     else {
         const valid = await mailNotExist(user.mail) ;
         if (valid) {
+            const intitule = user.nom+' '+user.prenom ;
+            // Envoi de mail
+            const mailContent = 'Bienvenue dans la grande famille de REPARE Car Mada '+intitule+'. Nous sommes ravis de vous avoir parmi nous, nous allons également vous offrir les meilleures services de réparations automobilistes' ;
+            sendMail(user.mail, mailContent) ;
+
+            // Enregistrement
             user.mdp = await BCrypt.hash(req.body.mdp, 10) ;
             user.save() ;
-            sendResult(res, {'success': 'Inscription efféctuée avec succés', 'body': user}) ;
+            const token = jwt.sign({ mail: user.mail, id: user._id, datelogin: new Date().toString() }, SECRET_KEY) ;
+            sendResult(res, { token: token, role: user.role, intitule: intitule, iduser: user._id }) ;
         } else sendResult(res, {'error': 'Cette adresse mail est déjà utilisée', 'body': req.body}) ;
     }
 } ;

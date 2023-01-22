@@ -2,8 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 const { find, save } = require('../service/DepenseService') ;
-const { paiement } = require('../service/FicheService') ;
+const { ficheNonPaye, paiement } = require('../service/FicheService') ;
 const { bilan, chiffreAffaireJournaliere, chiffreAffaireMensuel } = require('../service/FinanceService') ;
+
+/* Fiche non-payé */
+router.get('/fiches/non-paye', ficheNonPaye) ;
 
 /* Bilan mensuel */
 router.get('/bilan/:mois/:annee', bilan) ;

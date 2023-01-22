@@ -66,8 +66,8 @@ async function getDepenseMensuel(mois, annee) {
 
 /* Contrôle */
 async function controle(body) {
-    if (body.datedepense == '' || body.datedepense == null) return 'Date invalide' ;
-    if (body.montant == '' || isNaN(body.montant) || body.montant < 0) return 'Montant de la dépense invalide' ;
+    if (body.datedepense == '' || !body.datedepense) return 'Date invalide' ;
+    if (body.montant == '' || isNaN(body.montant) || body.montant < 0 || !body.montant) return 'Montant de la dépense invalide' ;
     const existbyid = await existById(body.typedepense) ;
     if (!existbyid) return 'Ce type de dépense n\'existe pas' ;
     return '' ;

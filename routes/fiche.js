@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { recherche, vehiculeARecupere, deposeNonReceptionne, updateReparation, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
+const { recapitule, recherche, vehiculeARecupere, deposeNonReceptionne, updateReparation, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
 
 /**********
  * CLIENT *
@@ -44,6 +44,9 @@ router.delete('/:id/etats/:idetat', deleteEtat) ;
  *********/
 /* Recherche */
 router.get('/recherche/historique', recherche) ;
+
+/* Récapitule */
+router.get('/fiche/recapitulation/:id', recapitule) ;
 
 /* Détails d'une fiche */
 router.get('/:id', fiche) ;

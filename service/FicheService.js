@@ -7,6 +7,20 @@ const { sendMail } = require('../service/mailService') ;
 const { saveFacture } = require('../service/FactureService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
+/* Fiche non-payée */
+const ficheNonPaye = async (req, res) => {
+    const fiches = await Fiche.find({ 'etatpayement': 0 }).populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
+    const result = getFiches(fiches) ;
+    sendResult(res, result) ;
+}
+
+/* Récapitulation */
+const recapitule = async (req, res) => {
+    const fiche = await Fiche.findOne({ '_id': req.params.id }).populate('user').populate('voiture').populate('etat.etatfiche').sort('etat.etatfiche.niveau').exec() ;
+    const result = await createFiche(fiche) ;
+    sendResult(res, result) ;
+} ;
+
 /* Recherche */
 const recherche = async (req, res) => {
     const body = req.body ;
@@ -207,7 +221,7 @@ const reparation = async (req, res) => {
             'intitule': req.body.intitule ,
             'datedebut': req.body.datedebut ,
             'datefin': req.body.datefin ,
-            'avancement': 0 ,
+            'avancement': req.body.avancement ,
             'prix': req.body.prix ,
             'description': req.body.description
         } ;
@@ -306,7 +320,7 @@ async function nextEtat(id) {
 function getTempsMoyenneReparation(fiche) {
     let tempsTotal = 0 ;
     for (const reparation of fiche.reparations) {
-        if (reparation.datedebut != '' && reparation.datefin != '') tempsTotal += reparation.datefin.getTime() - reparation.datedebut.getTime() ;
+        if (reparation.datedebut && reparation.datefin && reparation.datedebut != null && reparation.datefin != null && reparation.datedebut != '' && reparation.datefin != '') tempsTotal += reparation.datefin.getTime() - reparation.datedebut.getTime() ;
     }
     const nbreReparation = fiche.reparations.length ;
     const tempsMoyenne = (nbreReparation == 0 ? 0 : tempsTotal / nbreReparation) ;
@@ -362,6 +376,8 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    ficheNonPaye ,
+    recapitule ,
     recherche ,
     vehiculeARecupere ,
     deposeNonReceptionne ,
