@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-const { find, save } = require('../service/DepenseService') ;
+const { deleteOne, find, save } = require('../service/DepenseService') ;
 const { ficheNonPaye, paiement } = require('../service/FicheService') ;
 const { bilan, chiffreAffaireJournaliere, chiffreAffaireMensuel } = require('../service/FinanceService') ;
+
+/* Supprimer une dépense */
+router.delete('/depenses/:id/delete', deleteOne) ;
 
 /* Fiche non-payé */
 router.get('/fiches/non-paye', ficheNonPaye) ;

@@ -1,6 +1,12 @@
 const Depense = require('../models/Depense');
 const { existById } = require('../service/TypedepenseService') ;
 
+/* Supprimer une dépense */
+const deleteOne = async (req, res) => {
+    await Depense.deleteOne({ '_id': req.params.id }).exec() ;
+    sendResult(res, { 'success': 'Dépense supprimée avec succés', 'body': req.body }) ;
+} ;
+
 /* Liste de toutes les dépenses */
 const find = async (req, res) => {
     const mois = req.params.mois ;
@@ -60,7 +66,7 @@ async function getDepenseMensuel(mois, annee) {
             }
           ]
         }
-      }).populate('typedepense').exec() ;
+      }).populate('typedepense').sort({ 'datedepense': -1 }).exec() ;
     return result ;
 }
 
@@ -81,6 +87,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    deleteOne ,
     find ,
     save ,
     depenseMensuel
