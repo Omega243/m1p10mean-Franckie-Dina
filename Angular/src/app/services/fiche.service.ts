@@ -15,6 +15,18 @@ export class FicheService {
 
   constructor(private http: HttpClient) {}
 
+  // Récupérer la prochaine étape d'une fiche
+  getNextStep(idFiche: string): Observable<any> {
+    const url = environment.BASE_URL+environment.fiche_url+'/'+idFiche+'/next' ;
+    return this.http.get(url) ;
+  }
+
+  // Liste des fiches récéptionnées
+  ficheReception(): Observable<any> {
+    const url = environment.BASE_URL+environment.fiche_url+'/fiches/receptionnees' ;
+    return this.http.get(url) ;
+  }
+
   // Récapitulation d'une fiche
   ficheRecapitulation(id: string): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/fiche/recapitulation/'+id ;
@@ -27,7 +39,7 @@ export class FicheService {
     return this.http.get(url) ;
   }
 
-  // next Step pour une fiche (Ajouter la prochaine étape à une fiche)
+  // Ajouter la prochaine étape à une fiche
   next(idFiche: string): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/'+idFiche+'/next' ;
     return this.http.put(url, {}) ;

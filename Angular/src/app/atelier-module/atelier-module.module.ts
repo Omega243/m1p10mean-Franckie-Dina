@@ -10,13 +10,15 @@ import { NonReceptionComponent } from './non-reception/non-reception.component';
 import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 
 import { FormsModule } from '@angular/forms';
+import { ReceptionComponent } from './reception/reception.component';
 
 @NgModule({
   declarations: [
     AtelierMenuComponent ,
     AtelierModuleComponent ,
     NonReceptionComponent ,
-    FicheDetailsComponent
+    FicheDetailsComponent,
+    ReceptionComponent
 ],
   imports: [
     CommonModule,

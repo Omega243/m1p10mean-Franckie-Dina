@@ -11,7 +11,7 @@ export class NonReceptionComponent {
 
   depotNonReceptions: any;
 
-  constructor (private ficheService: FicheService, private router: Router) { }
+  constructor (private ficheService: FicheService) { }
 
   ngOnInit(): void {
     this.getNonReception() ;
