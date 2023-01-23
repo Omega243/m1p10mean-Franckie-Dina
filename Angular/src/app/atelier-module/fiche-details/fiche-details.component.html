@@ -213,13 +213,13 @@
                   <div class="row" *ngFor="let etat of etats" style="box-shadow: 0px 1px 6px 1px #AD9999; border-radius: 8px; margin-top: 10px; padding-top: 10px; margin-bottom: 10px" >
                     <form>
                       <div class="mb-2 row">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                           <input type="text" class="form-control" disabled value="{{ etat.etatfiche.intitule }}" />
                         </div>
                         <div class="col-md-3">
                           <input type="datetime-local" class="form-control" disabled value="{{ getDateHTML(etat.dateetat) }}" />
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                           <input type="text" class="form-control" disabled value="{{ etat.etatfiche.description }}" />
                         </div>
                         <div class="col-md-2">
@@ -276,7 +276,7 @@
                       <div class="col-md-5" >
                         <div class="progress" style="margin-top: 2%">
                           <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
-                            style="width: 50%" >{{ avancementGlobal }}%</div>
+                          [ngStyle]="{'width.%': avancementGlobal}" >{{ avancementGlobal }}%</div>
                         </div>
                       </div>
                     </div>

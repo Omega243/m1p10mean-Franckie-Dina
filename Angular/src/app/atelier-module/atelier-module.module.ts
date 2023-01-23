@@ -11,6 +11,8 @@ import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 
 import { FormsModule } from '@angular/forms';
 import { ReceptionComponent } from './reception/reception.component';
+import { AttenteRecuperationComponent } from './attente-recuperation/attente-recuperation.component';
+import { DemandeSortieComponent } from './demande-sortie/demande-sortie.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ReceptionComponent } from './reception/reception.component';
     AtelierModuleComponent ,
     NonReceptionComponent ,
     FicheDetailsComponent,
-    ReceptionComponent
+    ReceptionComponent,
+    AttenteRecuperationComponent,
+    DemandeSortieComponent
 ],
   imports: [
     CommonModule,

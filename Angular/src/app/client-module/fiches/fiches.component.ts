@@ -25,10 +25,4 @@ export class FichesComponent {
     }) ;
   }
 
-  // Récupérer le width à afficher
-  getWidth(avancement: number): string {
-    const result = 'style="width: '+avancement+'%"' ;
-    return result ;
-  }
-
 }

@@ -38,6 +38,7 @@
                         <th>Matricule</th>
                         <th>Client</th>
                         <th>Date de dépôt</th>
+                        <th>Etat en cours</th>
                         <th>Prochaine étape</th>
                         <th>Actions</th>
                       </tr>
@@ -50,6 +51,7 @@
                         </td>
                         <td>{{ fiche.user }}</td>
                         <td>{{ fiche.datefiche | date: 'dd/MM/yyyy à HH:mm' }}</td>
+                        <td><b>{{ fiche.etat.etatfiche.intitule }}</b></td>
                         <td>
                           <button *ngIf="nextSteps[indexFiche].exist" (click)="nextStep(fiche._id)" class="btn btn-primary" >
                             {{ nextSteps[indexFiche].body.intitule }}
@@ -59,8 +61,8 @@
                           </button>
                         </td>
                         <td>
-                          <a class="dropdown-item" [routerLink]="['/atelier/fiche-details/'+fiche._id]" >
-                            <i class="bx bx-edit-alt me-1"></i> Détails
+                          <a class="btn btn-info" [routerLink]="['/atelier/fiche-details/'+fiche._id]" >
+                            Détails
                           </a>
                         </td>
                       </tr>

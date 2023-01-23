@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { VehiculeDepotComponent } from './vehicule-depot/vehicule-depot.component';
 import { FichesComponent } from './fiches/fiches.component';
 import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
+import { RecuperableComponent } from './recuperable/recuperable.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
     ClientMenuComponent,
     VehiculeDepotComponent,
     FichesComponent,
-    FicheDetailsComponent
+    FicheDetailsComponent,
+    RecuperableComponent
   ],
   imports: [
     CommonModule,

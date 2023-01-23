@@ -1,15 +1,18 @@
+import { AccueilComponent } from './accueil/accueil.component';
 import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 import { FichesComponent } from './fiches/fiches.component';
+import { RecuperableComponent } from './recuperable/recuperable.component';
 import { VehiculeDepotComponent } from './vehicule-depot/vehicule-depot.component';
 import { VehiculeSaveComponent } from './vehicule-save/vehicule-save.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', component: FichesComponent },
+  { path: '', component: AccueilComponent },
   { path: 'vehicule-save', component: VehiculeSaveComponent },
   { path: 'vehicule-depot', component: VehiculeDepotComponent },
   { path: 'fiches', component: FichesComponent },
+  { path: 'recuperable', component: RecuperableComponent } ,
   { path: 'fiche-details/:id', component: FicheDetailsComponent }
 ];
 

@@ -4,7 +4,7 @@
     <div class="layout-container">
 
       <!-- Menu -->
-      <app-client-menu></app-client-menu>
+      <app-atelier-menu></app-atelier-menu>
       <!-- Menus -->
 
       <div class="layout-page">
@@ -16,7 +16,17 @@
         <!-- CONTENT -->
         <div class="content-wrapper">
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4">Mes fiches</h4>
+            <h4 class="fw-bold py-3 mb-4">Véhicule(s) demandant un billet de sortie</h4>
+
+              <button *ngIf="valideError != ''" class="btn btn-danger" style="width: 100%; text-align: center; margin-bottom:1%">
+                <i class="bx bx-error"></i>
+                {{ valideError }}
+              </button>
+
+              <button *ngIf="valideSuccess != ''" class="btn btn-success" style="width: 100%; text-align: center; margin-bottom:1%">
+                <i class="bx bx-check-double"></i>
+                {{ valideSuccess }}
+              </button>
 
               <!-- Table -->
               <div class="card">
@@ -26,9 +36,9 @@
                     <thead>
                       <tr>
                         <th>Matricule</th>
+                        <th>Client</th>
                         <th>Date de dépôt</th>
-                        <th>Etat</th>
-                        <th>Avancement</th>
+                        <th>Billet de sortie</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -38,16 +48,15 @@
                         <td>
                           <i class="fa fa-user me-1"></i> <strong>{{ fiche.voiture }}</strong>
                         </td>
+                        <td>{{ fiche.user }}</td>
                         <td>{{ fiche.datefiche | date: 'dd/MM/yyyy à HH:mm' }}</td>
-                        <td>{{ fiche.etat.etatfiche.intitule }}</td>
                         <td>
-                          <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
-                              [ngStyle]="{'width.%': fiche.avancement}" >{{ fiche.avancement }}%</div>
-                          </div>
+                          <button class="btn btn-primary" (click)="valideSortie(fiche._id)" >
+                            Valider
+                          </button>
                         </td>
                         <td>
-                          <a [routerLink]="['/client/fiche-details/'+fiche._id]" >
+                          <a class="dropdown-item" [routerLink]="['/atelier/fiche-details/'+fiche._id]" >
                             <i class="bx bx-edit-alt me-1"></i> Détails
                           </a>
                         </td>

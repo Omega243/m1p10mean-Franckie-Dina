@@ -15,6 +15,24 @@ export class FicheService {
 
   constructor(private http: HttpClient) {}
 
+  // Liste des fiches demandant un billet de sortie
+  demandeSortie(): Observable<any> {
+    const url = environment.BASE_URL+environment.fiche_url+'/fiches/demandesortie' ;
+    return this.http.get(url) ;
+  }
+
+  // Liste des fiches récupérable d'un client
+  recuperableClient(idClient: string): Observable<any> {
+    const url = environment.BASE_URL+environment.fiche_url+'/users/'+idClient+'/recuperations' ;
+    return this.http.get(url) ;
+  }
+
+  // Liste des fiches en attentes de récupération
+  enAttenteRecuperation(): Observable<any> {
+    const url = environment.BASE_URL+environment.fiche_url+'/fiches/attenterecuperation' ;
+    return this.http.get(url) ;
+  }
+
   // Récupérer la prochaine étape d'une fiche
   getNextStep(idFiche: string): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/'+idFiche+'/next' ;

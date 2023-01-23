@@ -16,7 +16,17 @@
         <!-- CONTENT -->
         <div class="content-wrapper">
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4">Mes fiches</h4>
+            <h4 class="fw-bold py-3 mb-4">Mes véhicules récupérables</h4>
+
+            <button *ngIf="nextStepError != ''" class="btn btn-danger" style="width: 100%; text-align: center; margin-bottom:1%">
+              <i class="bx bx-error"></i>
+              {{ nextStepError }}
+            </button>
+
+            <button *ngIf="nextStepSuccess != ''" class="btn btn-success" style="width: 100%; text-align: center; margin-bottom:1%">
+              <i class="bx bx-check-double"></i>
+              {{ nextStepSuccess }}
+            </button>
 
               <!-- Table -->
               <div class="card">
@@ -28,23 +38,25 @@
                         <th>Matricule</th>
                         <th>Date de dépôt</th>
                         <th>Etat</th>
-                        <th>Avancement</th>
                         <th>Actions</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
 
-                      <tr *ngFor="let fiche of fiches" >
+                      <tr *ngFor="let fiche of fiches; let indexFiche=index;" >
                         <td>
                           <i class="fa fa-user me-1"></i> <strong>{{ fiche.voiture }}</strong>
                         </td>
                         <td>{{ fiche.datefiche | date: 'dd/MM/yyyy à HH:mm' }}</td>
                         <td>{{ fiche.etat.etatfiche.intitule }}</td>
                         <td>
-                          <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
-                              [ngStyle]="{'width.%': fiche.avancement}" >{{ fiche.avancement }}%</div>
-                          </div>
+                          <button *ngIf="nextSteps[indexFiche].exist && nextSteps[indexFiche].body.niveau != 5 " (click)="nextStep(fiche._id)" class="btn btn-primary" >
+                            {{ nextSteps[indexFiche].body.intitule }}
+                          </button>
+                          <button *ngIf="!nextSteps[indexFiche].exist || nextSteps[indexFiche].body.niveau == 5 " class="btn btn-secondary" >
+                            Aucune
+                          </button>
                         </td>
                         <td>
                           <a [routerLink]="['/client/fiche-details/'+fiche._id]" >
