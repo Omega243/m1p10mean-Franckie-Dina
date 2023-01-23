@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { ReceptionComponent } from './reception/reception.component';
 import { AttenteRecuperationComponent } from './attente-recuperation/attente-recuperation.component';
 import { DemandeSortieComponent } from './demande-sortie/demande-sortie.component';
+import { ValideSortieComponent } from './valide-sortie/valide-sortie.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DemandeSortieComponent } from './demande-sortie/demande-sortie.componen
     FicheDetailsComponent,
     ReceptionComponent,
     AttenteRecuperationComponent,
-    DemandeSortieComponent
+    DemandeSortieComponent,
+    ValideSortieComponent
 ],
   imports: [
     CommonModule,

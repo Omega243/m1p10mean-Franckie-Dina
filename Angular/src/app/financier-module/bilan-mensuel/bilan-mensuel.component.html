@@ -1,0 +1,107 @@
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+      <!-- Menu -->
+      <app-financier-menu></app-financier-menu>
+      <!-- Menus -->
+
+      <div class="layout-page">
+
+        <!-- HEADER -->
+        <app-header></app-header>
+        <!-- HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4">Bilan mensuel</h4>
+
+            <div class="card">
+              <div class="row" style="margin-top: 2%; margin-bottom: 2%">
+                <div class="col-md-2"></div>
+                <div class="col-md-2" style="margin-top: 1%">
+                  Bilan mensuel en
+                </div>
+                <div class="col-md-3">
+                  <select class="form-select" [(ngModel)]="mois" (change)="bilanMensuel()" >
+                    <option *ngFor="let month of months; let indexOfelement=index;" value="{{ indexOfelement + 1 }}">
+                      {{ month }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-2">
+                  <select class="form-select" [(ngModel)]="annee" (change)="bilanMensuel()" >
+                    <option *ngFor="let year of years" value="{{ year }}">
+                      {{ year }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 1%" >
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-title" style="text-align: center; padding-top: 1%;">
+                    <button class="btn btn-info">RECETTE</button>
+                  </div>
+
+                  <div class="card-body">
+                    <ul>
+                      <li>Nombre de paiement : <b> {{ result.affaires.factures.length < 10 ? '0'+result.affaires.factures.length : result.affaires.factures.length }} </b></li>
+                      <li>Montant total  : <b> {{ result.affaires.total | number }} Ar </b></li>
+                      <li>Bénéfice : <b> {{ result.benefice | number }} Ar </b></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-title" style="text-align: center; padding-top: 1%;">
+                    <button class="btn btn-info">DEPENSE</button>
+                  </div>
+
+                  <div class="card-body">
+                    <ul>
+                      <li>Nombre de dépense : <b> {{ result.depenses.depenses.length < 10 ? '0'+result.depenses.depenses.length : result.affaires.factures.length }} </b></li>
+                      <li>Montant total  : <b> {{ result.depenses.total | number }} Ar </b></li>
+                      <li>Perte : <b> {{ result.perte | number }} Ar </b></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12" style="margin-top: 1%" >
+                <button *ngIf="result.perte == 0" class="btn btn-success" style="width: 100%" >
+                  {{ result.bilan }}
+                </button>
+                <button *ngIf="result.perte > 0" class="btn btn-danger" style="width: 100%" >
+                  {{ result.bilan }}
+                </button>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 2%;" >
+              <div class="card" style="border-top: 2px solid rgb(100, 100, 100, 0.5)" >
+                <div class="chart-container" style="width: 100%" >
+                  <canvas id="MyChart" >{{ chart }}</canvas>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- CONTENT -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <app-footer></app-footer>
+  <!-- FOOTER -->
+
+</body>

@@ -16,17 +16,7 @@
         <!-- CONTENT -->
         <div class="content-wrapper">
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4">Véhicule(s) récéptionné(s)</h4>
-
-            <button *ngIf="nextStepError != ''" class="btn btn-danger" style="width: 100%; text-align: center; margin-bottom:1%">
-              <i class="bx bx-error"></i>
-              {{ nextStepError }}
-            </button>
-
-            <button *ngIf="nextStepSuccess != ''" class="btn btn-success" style="width: 100%; text-align: center; margin-bottom:1%">
-              <i class="bx bx-check-double"></i>
-              {{ nextStepSuccess }}
-            </button>
+            <h4 class="fw-bold py-3 mb-4">Véhicule(s) possédant un billet de sortie</h4>
 
               <!-- Table -->
               <div class="card">
@@ -38,31 +28,20 @@
                         <th>Matricule</th>
                         <th>Client</th>
                         <th>Date de dépôt</th>
-                        <th>Etat en cours</th>
-                        <th>Prochaine étape</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
 
-                      <tr *ngFor="let fiche of fiches; let indexFiche=index" >
+                      <tr *ngFor="let fiche of fiches" >
                         <td>
                           <i class="fa fa-user me-1"></i> <strong>{{ fiche.voiture }}</strong>
                         </td>
                         <td>{{ fiche.user }}</td>
                         <td>{{ fiche.datefiche | date: 'dd/MM/yyyy à HH:mm' }}</td>
-                        <td><b>{{ fiche.etat.etatfiche.intitule }}</b></td>
                         <td>
-                          <button *ngIf="nextSteps[indexFiche].exist" (click)="nextStep(fiche._id)" class="btn btn-primary" >
-                            {{ nextSteps[indexFiche].body.intitule }}
-                          </button>
-                          <button *ngIf="!nextSteps[indexFiche].exist" class="btn btn-secondary" >
-                            Aucune
-                          </button>
-                        </td>
-                        <td>
-                          <a class="btn btn-info" [routerLink]="['/atelier/fiche-details/'+fiche._id]" >
-                            Détails
+                          <a class="dropdown-item" [routerLink]="['/atelier/fiche-details/'+fiche._id]" >
+                            <i class="bx bx-edit-alt me-1"></i> Détails
                           </a>
                         </td>
                       </tr>

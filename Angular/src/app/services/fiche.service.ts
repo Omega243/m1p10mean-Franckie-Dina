@@ -15,6 +15,12 @@ export class FicheService {
 
   constructor(private http: HttpClient) {}
 
+  // Liste des fiches VALIDE pour SORTIE
+  valideSortie(): Observable<any> {
+    const url = environment.BASE_URL+environment.fiche_url+'/fiches/valide-sortie' ;
+    return this.http.get(url) ;
+  }
+
   // Liste des fiches demandant un billet de sortie
   demandeSortie(): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/fiches/demandesortie' ;

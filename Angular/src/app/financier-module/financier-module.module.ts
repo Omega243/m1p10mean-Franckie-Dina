@@ -12,6 +12,8 @@ import { FicheNonpayeComponent } from './fiche-nonpaye/fiche-nonpaye.component';
 import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 import { DepenseHistoriqueComponent } from './depense-historique/depense-historique.component';
 import { ChiffreJournalierComponent } from './chiffre-journalier/chiffre-journalier.component';
+import { ChiffreMensuelComponent } from './chiffre-mensuel/chiffre-mensuel.component';
+import { BilanMensuelComponent } from './bilan-mensuel/bilan-mensuel.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { ChiffreJournalierComponent } from './chiffre-journalier/chiffre-journal
     FicheNonpayeComponent,
     FicheDetailsComponent,
     DepenseHistoriqueComponent,
-    ChiffreJournalierComponent
+    ChiffreJournalierComponent,
+    ChiffreMensuelComponent,
+    BilanMensuelComponent
   ],
   imports: [
     CommonModule,

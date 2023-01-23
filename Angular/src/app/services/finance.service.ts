@@ -10,6 +10,18 @@ export class FinanceService {
 
   constructor(private http: HttpClient) { }
 
+  // Bilan mensuel
+  bilanMensuel(mois: number, annee: number): Observable<any> {
+    const url = environment.BASE_URL+environment.finance_url+'/bilan/'+mois+'/'+annee ;
+    return this.http.get(url) ;
+  }
+
+  // Chiffre d'affaire mensuel
+  chiffreMensuel(mois: number, annee: number): Observable<any> {
+    const url = environment.BASE_URL+environment.finance_url+'/affaires/'+mois+'/'+annee ;
+    return this.http.get(url) ;
+  }
+
   // Validation de paiement
   validePaiement(idFiche: string, remise: number, datepaiement: string): Observable<any> {
     const url = environment.BASE_URL+environment.finance_url+'/'+idFiche+'/paiement' ;

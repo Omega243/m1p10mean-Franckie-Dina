@@ -36,12 +36,10 @@ export class ChiffreJournalierComponent {
     this.chiffreJournalier(false) ;
   }
 
-
   // Récupère le chiffre d'affaire journalier
   chiffreJournalier(toDestroy: boolean) {
     this.financeService.chiffrejournalier(this.mois, this.annee).subscribe((result) => {
       this.result = result ;
-  console.log(result) ;
       if (toDestroy) this.chart.destroy() ;
       this.createChart(result) ;
     })
@@ -59,7 +57,7 @@ export class ChiffreJournalierComponent {
     this.chart = new Chart("MyChart", {
       type: 'line',
 
-      data: {// values on X-Axis
+      data: {
         labels: xAxe,
 	       datasets: [
           {
@@ -70,6 +68,12 @@ export class ChiffreJournalierComponent {
         ]
       },
       options: {
+        plugins: {
+          title: {
+            display: true ,
+            text: 'Représentation grahique du Chiffre d\'affaire'
+          }
+        } ,
         aspectRatio:2.5
       }
 

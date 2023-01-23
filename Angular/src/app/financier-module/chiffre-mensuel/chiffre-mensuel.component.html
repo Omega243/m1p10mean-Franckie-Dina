@@ -1,0 +1,181 @@
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+      <!-- Menu -->
+      <app-financier-menu></app-financier-menu>
+      <!-- Menus -->
+
+      <div class="layout-page">
+
+        <!-- HEADER -->
+        <app-header></app-header>
+        <!-- HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4">Chiffre d'affaire mensuel</h4>
+
+            <div class="card">
+              <div class="row" style="margin-top: 2%; margin-bottom: 2%">
+                <div class="col-md-1"></div>
+                <div class="col-md-2" style="margin-top: 1%">
+                  Recette en
+                </div>
+                <div class="col-md-3">
+                  <select class="form-select" [(ngModel)]="mois" (change)="chiffreMensuel()" >
+                    <option *ngFor="let month of months; let indexOfelement=index;" value="{{ indexOfelement + 1 }}">
+                      {{ month }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-2">
+                  <select class="form-select" [(ngModel)]="annee" (change)="chiffreMensuel()" >
+                    <option *ngFor="let year of years" value="{{ year }}">
+                      {{ year }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-4" >
+                  <button class="btn btn-info">
+                    <b>TOTAL : </b>{{ result.total | number }} Ar
+                  </button>
+                </div>
+              </div>
+
+              <!-- Table -->
+              <div class="card">
+                <h5 class="card-header">Liste des paiements</h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Date facture</th>
+                        <th>Montant à payer</th>
+                        <th>Remise</th>
+                        <th>Montant payé</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+
+                      <tr *ngFor="let facture of result.factures; let indexFacture=index" >
+                        <td>{{ facture.datefacture | date: 'dd/MM/yyyy à HH:mm' }}</td>
+                        <td>{{ facture.montantapayer | number }} Ar</td>
+                        <td>{{ facture.remise }}%</td>
+                        <td>{{ facture.montantapayer * (1 - (facture.remise/100)) }} Ar</td>
+                        <td>
+                          <button class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="'#demo'+facture._id" >
+                            Détails
+                          </button>
+
+                          <div class="modal fade" [attr.id]="'demo'+facture._id" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="modalCenterTitle" style="text-decoration: underline;" >Détails d'une facture</h5>
+                                  <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="mb-3 row">
+                                    <div class="col-md-2" style="margin-top: 1%" >
+                                      Date de la facture
+                                    </div>
+                                    <div class="col-md-4">
+                                      <input disabled class="form-control" type="text" value="{{ facture.datefacture | date: 'dd/MM/yyyy à HH:mm' }}" />
+                                    </div>
+                                  </div>
+                                  <div class="mb-3 row">
+                                    <div class="col-md-5" style="text-decoration: underline;" >
+                                      Réparation(s) effectuée(s)
+                                    </div>
+                                  </div>
+                                  <div *ngFor="let reparation of facture.fiche.reparations" class="mb-3 row" style="margin-top: -1%" >
+                                    <div class="col-md-6">
+                                      <input disabled class="form-control" type="text" value="{{ reparation.intitule }}" />
+                                    </div>
+                                    <div class="col-md-2">
+                                      <input disabled class="form-control" style="text-align: right;" type="text" value="{{ reparation.prix | number }} Ar" />
+                                    </div>
+                                    <div class="col-md-4">
+                                      <div class="progress" style="margin-top: 4%">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
+                                        [ngStyle]="{'width.%': reparation.avancement}" >{{ reparation.avancement }}%</div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="mb-3 row" style="margin-top: -2%" >
+                                    <div class="col-md-6" style="text-align: right;" >
+                                      <b>Montant Total : </b>
+                                    </div>
+                                    <div class="col-md-2" style="text-align: right;" >
+                                      {{ facture.montantapayer | number }} Ar
+                                    </div>
+                                  </div>
+                                  <div class="mb-3 row" style="margin-top: -2%" >
+                                    <div class="col-md-6" style="text-align: right;" >
+                                      <b>Remise : </b>
+                                    </div>
+                                    <div class="col-md-2" style="text-align: right;">
+                                      {{ facture.remise }}%
+                                    </div>
+                                  </div>
+                                  <div class="mb-3 row" style="margin-top: -2%" >
+                                    <div class="col-md-6" style="text-align: right;" >
+                                      <b>Montant de la remise : </b>
+                                    </div>
+                                    <div class="col-md-2" style="text-align: right;">
+                                      {{ (facture.montantapayer * (facture.remise/100)).toFixed(1) | number }} Ar
+                                    </div>
+                                  </div>
+                                  <div class="mb-3 row" style="margin-top: -2%" >
+                                    <div class="col-md-6" style="text-align: right;" >
+                                      <b>Montant à payer : </b>
+                                    </div>
+                                    <div class="col-md-2" style="text-align: right;" >
+                                      {{ facture.montantpayer | number }} Ar
+                                    </div>
+                                  </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" >
+                                    Quitter
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            <!-- Table -->
+
+            </div>
+          </div>
+        </div>
+        <!-- CONTENT -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <app-footer></app-footer>
+  <!-- FOOTER -->
+
+</body>

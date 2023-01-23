@@ -7,6 +7,7 @@ import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 import { ReceptionComponent } from './reception/reception.component';
 import { AttenteRecuperationComponent } from './attente-recuperation/attente-recuperation.component';
 import { DemandeSortieComponent } from './demande-sortie/demande-sortie.component';
+import { ValideSortieComponent } from './valide-sortie/valide-sortie.component';
 
 const routes: Routes = [
   { path: '', component: NonReceptionComponent } ,
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'receptionne', component: ReceptionComponent } ,
   { path: 'attente-recuperation', component: AttenteRecuperationComponent } ,
   { path: 'demande-sortie', component: DemandeSortieComponent } ,
+  { path: 'valide-sortie', component: ValideSortieComponent } ,
   { path: 'fiche-details/:id', component: FicheDetailsComponent }
 ];
 
