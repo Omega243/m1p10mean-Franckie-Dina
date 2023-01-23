@@ -7,6 +7,15 @@ const { sendMail } = require('../service/mailService') ;
 const { saveFacture } = require('../service/FactureService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
+/* Liste des véhicules VALIDE pour SORTIE */
+const valideSortie = async (req, res) => {
+    let liste = [] ;
+    const result = await Fiche.find().populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
+    const fiches = await getFiches(result) ;
+    for (const fiche of fiches) if (fiche.etat.etatfiche.niveau == 5) liste.push(fiche) ;
+    sendResult(res, liste) ;
+} ;
+
 /* Liste des véhicules demandant la SORTIE */
 const ficheDemandeSortie = async (req, res) => {
     let liste = [] ;
@@ -407,6 +416,7 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    valideSortie ,
     ficheDemandeSortie ,
     ficheEnAttenteRecuperation ,
     ficheReception ,

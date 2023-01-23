@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { ficheDemandeSortie, ficheEnAttenteRecuperation, ficheReception, recapitule, recherche, vehiculeARecupere, deposeNonReceptionne, updateReparation, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
+const { valideSortie, ficheDemandeSortie, ficheEnAttenteRecuperation, ficheReception, recapitule, recherche, vehiculeARecupere, deposeNonReceptionne, updateReparation, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
 
 /**********
  * CLIENT *
@@ -21,6 +21,9 @@ router.get('/users/:user', ficheUser) ;
 /***********
  * ATELIER *
  **********/
+/* Liste des véhicules VALIDE pour SORTIE */
+router.get('/fiches/valide-sortie', valideSortie) ;
+
 /* Liste des véhicules demandant un billet de SORTIE */
 router.get('/fiches/demandesortie', ficheDemandeSortie) ;
 
