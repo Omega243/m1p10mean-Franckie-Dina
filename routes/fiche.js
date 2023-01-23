@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-const { ficheReception, recapitule, recherche, vehiculeARecupere, deposeNonReceptionne, updateReparation, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
+const { ficheDemandeSortie, ficheEnAttenteRecuperation, ficheReception, recapitule, recherche, vehiculeARecupere, deposeNonReceptionne, updateReparation, historique, deleteEtat, deleteReparation, ficheUser, getNextStep, nextStep, depot, fiche, reparation } = require('../service/FicheService') ;
 
 /**********
  * CLIENT *
  *********/
-/* Liste des voitures pouvant être récupérées */
+/* Liste des voitures A RECUPERER et RECUPERABLE */
 router.get('/users/:iduser/recuperations', vehiculeARecupere) ;
 
 /* Dépôt de voiture */
@@ -21,10 +21,16 @@ router.get('/users/:user', ficheUser) ;
 /***********
  * ATELIER *
  **********/
+/* Liste des véhicules demandant un billet de SORTIE */
+router.get('/fiches/demandesortie', ficheDemandeSortie) ;
+
+/* Liste des fiches SOLLICITANT les DEMANDES de SORTIE des clients */
+router.get('/fiches/attenterecuperation', ficheEnAttenteRecuperation) ;
+
 /* Liste des fiches RECEPTIONNEES */
 router.get('/fiches/receptionnees', ficheReception) ;
 
-/* Liste des fiches déposées non-récéptionnées */
+/* Liste des fiches déposées NON-RECEPTIONNEES */
 router.get('/deposes/non-receptionnes', deposeNonReceptionne) ;
 
 /* Ajout de réparation */

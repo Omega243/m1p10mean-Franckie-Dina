@@ -7,12 +7,30 @@ const { sendMail } = require('../service/mailService') ;
 const { saveFacture } = require('../service/FactureService') ;
 const EtatficheService = require('../service/EtatficheService') ;
 
+/* Liste des véhicules demandant la SORTIE */
+const ficheDemandeSortie = async (req, res) => {
+    let liste = [] ;
+    const result = await Fiche.find().populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
+    const fiches = await getFiches(result) ;
+    for (const fiche of fiches) if (fiche.etat.etatfiche.niveau == 4) liste.push(fiche) ;
+    sendResult(res, liste) ;
+} ;
+
+/* Liste des fiches en attente de récupuération */
+const ficheEnAttenteRecuperation = async (req, res) => {
+    let liste = [] ;
+    const result = await Fiche.find().populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
+    const fiches = await getFiches(result) ;
+    for (const fiche of fiches) if (fiche.etat.etatfiche.niveau == 3) liste.push(fiche) ;
+    sendResult(res, liste) ;    
+} ;
+
 /* Liste des fiches RECEPTIONNEES */
 const ficheReception = async (req, res) => {
     let liste = [] ;
     const result = await Fiche.find().populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
     const fiches = await getFiches(result) ;
-    for (const fiche of fiches) if (fiche.etat.etatfiche.niveau > 0 && fiche.etat.etatfiche.niveau < 3) liste.push(fiche) ;
+    for (const fiche of fiches) if ((fiche.etat.etatfiche.niveau > 0 && fiche.etat.etatfiche.niveau < 3) || fiche.etat.etatfiche.niveau == 6) liste.push(fiche) ;
     sendResult(res, liste) ;
 } ;
 
@@ -70,10 +88,11 @@ const recherche = async (req, res) => {
 
 /* Liste des voitures (Fiche) pouvant être récupérée */
 const vehiculeARecupere = async (req, res) => {
-    const niveauArecupere = 5 ;
-    const fiches = await Fiche.find({ 'user': req.params.iduser }).populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
-    const result = getWhereCurrentNiveauEqual(niveauArecupere, fiches) ;
-    sendResult(res, result) ;
+    let liste = [] ;
+    const result = await Fiche.find({ 'user': req.params.iduser }).populate('user').populate('voiture').populate('etat.etatfiche').exec() ;
+    const fiches = await getFiches(result) ;
+    for (const fiche of fiches) if (fiche.etat.etatfiche.niveau >= 3) liste.push(fiche) ;
+    sendResult(res, liste) ;
 } ;
 
 /* Liste des voitures déposées non-récéptionnées */
@@ -388,6 +407,8 @@ function sendResult(res, result) {
 }
 
 module.exports = {
+    ficheDemandeSortie ,
+    ficheEnAttenteRecuperation ,
     ficheReception ,
     ficheNonPaye ,
     recapitule ,
