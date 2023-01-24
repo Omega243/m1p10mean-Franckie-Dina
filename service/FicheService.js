@@ -70,9 +70,17 @@ const recherche = async (req, res) => {
         $and: andContrainte
     } ;
     Fiche.find(contraintes).populate('user').populate('voiture').populate('etat.etatfiche').exec().then((result) => {
-        // Filtre par matricule de véhicule && Etat de payement
-        if ((body.matricule && body.matricule != '') || (body.etatpaiement && body.etatpaiement != -1)) {
+        // Filtre par matricule de véhicule && Etat de payement && Nbre de réparation effectué
+        if ((body.matricule && body.matricule != '') || (body.etatpaiement && body.etatpaiement != -1) || body.nbreinf || body.nbresup ) {
             for (let i=0; i<result.length; i++) {
+                if (body.nbreinf && result[i].reparations.length < body.nbreinf) {
+                    result.splice(i, 1) ;
+                    i=0 ;
+                }
+                if (body.nbresup && result[i].reparations.length > body.nbresup) {
+                    result.splice(i, 1) ;
+                    i=0 ;
+                }
                 if (body.matricule && body.matricule != '' && result[i] && result[i].voiture.matricule != body.matricule) {
                     result.splice(i, 1) ;
                     i=0 ;
@@ -83,7 +91,15 @@ const recherche = async (req, res) => {
                 }
             }
         }
-        let allFiches = getFiches(result) ;
+        const allFiches = getFiches(result) ;
+        if (body.intituleuser && body.intituleuser != '') {
+            for (let i=0; i<allFiches.length; i++) {
+                if (!(allFiches[i].user).toUpperCase().includes((body.intituleuser).toUpperCase())) {
+                    allFiches.splice(i, 1) ;
+                    i = 0 ;
+                }
+            }
+        }
         sendResult(res, allFiches) ;
     }) ;
 } ;
