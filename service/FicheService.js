@@ -60,38 +60,31 @@ const recapitule = async (req, res) => {
 /* Recherche */
 const recherche = async (req, res) => {
     const body = req.body ;
+    let andContrainte = [] ;
+    if (body.dateinf && body.dateinf != '' && body.dateinf != null) andContrainte.push({ 'datefiche': {$gte: body.dateinf} }) ;
+    if (body.datesup && body.datesup != '' && body.datesup != null) andContrainte.push({ 'datefiche': {$lte: body.datesup} }) ;
+    andContrainte.push({$or: [{'reparations.intitule': { '$regex': body.reparation, $options: 'i' }} ,{'reparations.description': { '$regex': body.reparation, $options: 'i' }}]}) ;
+    if (req.body.user) andContrainte.push({ 'user': req.body.user }) ;
+
     const contraintes = {
-        $and: [
-            {
-                'datefiche': { $gte: body.datedepotinf, $lte: body.datedepotsup }
-            } ,
-            {
-                $or: [
-                    {
-                        'reparations.intitule': { '$regex': body.reparation, $options: 'i' }
-                    } ,
-                    {
-                        'reparations.description': { '$regex': body.reparation, $options: 'i' }
-                    }
-                ]
-            }
-        ]
+        $and: andContrainte
     } ;
-    Fiche.find(contraintes).populate('voiture').exec().then((result) => {
+    Fiche.find(contraintes).populate('user').populate('voiture').populate('etat.etatfiche').exec().then((result) => {
         // Filtre par matricule de véhicule && Etat de payement
-        if (body.matricule != '' || body.etatpayement != '') {
+        if ((body.matricule && body.matricule != '') || (body.etatpaiement && body.etatpaiement != -1)) {
             for (let i=0; i<result.length; i++) {
-                if (body.matricule != '' && result[i].voiture.matricule != body.matricule) {
+                if (body.matricule && body.matricule != '' && result[i] && result[i].voiture.matricule != body.matricule) {
                     result.splice(i, 1) ;
-                    i-- ;
+                    i=0 ;
                 }
-                if (body.etatpayement != '' && result[i].etatpayement != body.etatpayement) {
+                if (body.etatpaiement && body.etatpaiement != -1 && result[i] && result[i].etatpayement != body.etatpaiement) {
                     result.splice(i, 1) ;
-                    i-- ;
+                    i=0 ;
                 }
             }
         }
-        sendResult(res, result) ;
+        let allFiches = getFiches(result) ;
+        sendResult(res, allFiches) ;
     }) ;
 } ;
 

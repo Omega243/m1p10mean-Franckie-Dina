@@ -55,7 +55,7 @@ router.delete('/:id/etats/:idetat', deleteEtat) ;
  * COMMUN *
  *********/
 /* Recherche */
-router.get('/recherche/historique', recherche) ;
+router.post('/recherche/historique', recherche) ;
 
 /* Récapitule */
 router.get('/fiche/recapitulation/:id', recapitule) ;
