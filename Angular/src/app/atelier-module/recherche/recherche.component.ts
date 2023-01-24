@@ -10,6 +10,7 @@ export class RechercheComponent {
 
   // Résultats de recherche
   result: any ;
+  search: boolean = false ;
 
   // Formulaire de recherche
   rechercheForm: any = {
@@ -26,13 +27,14 @@ export class RechercheComponent {
 
   ngOnInit(): void {
     this.result = [] ;
+    this.search = false ;
   }
 
   // Recherche
   recherche() {
     this.ficheService.rechercheAvance(this.rechercheForm).subscribe((result) => {
       this.result = result ;
-      console.log(result) ;
+      this.search = true ;
     }) ;
   }
 

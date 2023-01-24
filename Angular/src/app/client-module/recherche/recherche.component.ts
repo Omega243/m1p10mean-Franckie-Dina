@@ -10,6 +10,7 @@ export class RechercheComponent {
 
   // Résultats de recherche
   result: any ;
+  search: boolean = false ;
 
   // Formulaire de recherche
   rechercheForm: any = {
@@ -27,13 +28,14 @@ export class RechercheComponent {
     const login = JSON.parse(localStorage.getItem('login')!) ;
     this.rechercheForm.use = login.iduser ;
     this.result = [] ;
+    this.search = false ;
   }
 
   // Recherche
   recherche() {
     this.ficheService.rechercheAvance(this.rechercheForm).subscribe((result) => {
       this.result = result ;
-      console.log(result) ;
+      this.search = true ;
     }) ;
   }
 

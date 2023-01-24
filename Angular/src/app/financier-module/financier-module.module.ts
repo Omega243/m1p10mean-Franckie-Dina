@@ -14,6 +14,7 @@ import { DepenseHistoriqueComponent } from './depense-historique/depense-histori
 import { ChiffreJournalierComponent } from './chiffre-journalier/chiffre-journalier.component';
 import { ChiffreMensuelComponent } from './chiffre-mensuel/chiffre-mensuel.component';
 import { BilanMensuelComponent } from './bilan-mensuel/bilan-mensuel.component';
+import { RechercheComponent } from './recherche/recherche.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { BilanMensuelComponent } from './bilan-mensuel/bilan-mensuel.component';
     DepenseHistoriqueComponent,
     ChiffreJournalierComponent,
     ChiffreMensuelComponent,
-    BilanMensuelComponent
+    BilanMensuelComponent,
+    RechercheComponent
   ],
   imports: [
     CommonModule,
