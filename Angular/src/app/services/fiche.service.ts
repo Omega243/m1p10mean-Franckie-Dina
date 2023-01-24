@@ -15,6 +15,12 @@ export class FicheService {
 
   constructor(private http: HttpClient) {}
 
+  // Recherche avancée
+  rechercheAvance(form: any): Observable<any> {
+    const url = environment.BASE_URL+environment.fiche_url+'/recherche/historique' ;
+    return this.http.post(url, form) ;
+  }
+
   // Liste des fiches VALIDE pour SORTIE
   valideSortie(): Observable<any> {
     const url = environment.BASE_URL+environment.fiche_url+'/fiches/valide-sortie' ;

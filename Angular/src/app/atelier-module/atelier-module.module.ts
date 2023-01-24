@@ -14,6 +14,7 @@ import { ReceptionComponent } from './reception/reception.component';
 import { AttenteRecuperationComponent } from './attente-recuperation/attente-recuperation.component';
 import { DemandeSortieComponent } from './demande-sortie/demande-sortie.component';
 import { ValideSortieComponent } from './valide-sortie/valide-sortie.component';
+import { RechercheComponent } from './recherche/recherche.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ValideSortieComponent } from './valide-sortie/valide-sortie.component';
     ReceptionComponent,
     AttenteRecuperationComponent,
     DemandeSortieComponent,
-    ValideSortieComponent
+    ValideSortieComponent,
+    RechercheComponent
 ],
   imports: [
     CommonModule,

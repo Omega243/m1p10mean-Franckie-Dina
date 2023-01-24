@@ -1,0 +1,92 @@
+<body>
+
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+      <!-- Menu -->
+      <app-atelier-menu></app-atelier-menu>
+      <!-- Menu -->
+
+      <div class="layout-page">
+
+        <!-- Header -->
+        <app-header></app-header>
+        <!-- Header -->
+
+        <!-- CONTENT -->
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4">Recherche avancée</h4>
+
+            <div class="row mb-12">
+              <div class="col-md-12 col-lg-12 mb-12">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title" style="text-decoration: underline;" >Paramètre de recherche</h5>
+                    <div class="mb-3 row">
+                      <label for="html5-text-input" class="col-md-4 col-form-label">Nom / Prénom du client</label>
+                      <div class="col-md-7">
+                        <input class="form-control" type="text" [(ngModel)]="rechercheForm.intituleuser" name="intituleuser" />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-text-input" class="col-md-4 col-form-label">Numéro matricule du véhicule</label>
+                      <div class="col-md-7">
+                        <input class="form-control" type="text" [(ngModel)]="rechercheForm.matricule" name="matricule" />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-email-input" class="col-md-4 col-form-label">Nombre de réparation entre</label>
+                      <div class="col-md-3">
+                        <input class="form-control" type="number" [(ngModel)]="rechercheForm.nbreinf" name="nbreinf" />
+                      </div>
+                      <div class="col-md-1">et</div>
+                      <div class="col-md-3">
+                        <input class="form-control" type="number" [(ngModel)]="rechercheForm.nbresup" name="nbresup" />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-email-input" class="col-md-4 col-form-label">Réparation éffectuée sur</label>
+                      <div class="col-md-7">
+                        <input class="form-control" type="text" [(ngModel)]="rechercheForm.reparation" name="reperation" />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-email-input" class="col-md-4 col-form-label">Date de dépôt entre</label>
+                      <div class="col-md-3">
+                        <input class="form-control" type="datetime-local" [(ngModel)]="rechercheForm.dateinf" name="dateinf" />
+                      </div>
+                      <div class="col-md-1">et</div>
+                      <div class="col-md-3">
+                        <input class="form-control" type="datetime-local" [(ngModel)]="rechercheForm.datesup" name="datesup" />
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <label for="html5-email-input" class="col-md-4 col-form-label"></label>
+                      <div class="col-md-7">
+                        <button class="btn btn-primary" (click)="recherche()" >
+                          <i class="bx bx-zoom-in"></i>
+                          Rechercher
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- CONTENT -->
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+  <!-- Footer -->
+
+</body>

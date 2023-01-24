@@ -8,6 +8,7 @@ import { ReceptionComponent } from './reception/reception.component';
 import { AttenteRecuperationComponent } from './attente-recuperation/attente-recuperation.component';
 import { DemandeSortieComponent } from './demande-sortie/demande-sortie.component';
 import { ValideSortieComponent } from './valide-sortie/valide-sortie.component';
+import { RechercheComponent } from './recherche/recherche.component';
 
 const routes: Routes = [
   { path: '', component: NonReceptionComponent } ,
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'attente-recuperation', component: AttenteRecuperationComponent } ,
   { path: 'demande-sortie', component: DemandeSortieComponent } ,
   { path: 'valide-sortie', component: ValideSortieComponent } ,
-  { path: 'fiche-details/:id', component: FicheDetailsComponent }
+  { path: 'fiche-details/:id', component: FicheDetailsComponent } ,
+  { path: 'recherche', component: RechercheComponent }
 ];
 
 @NgModule({

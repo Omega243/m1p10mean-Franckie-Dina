@@ -13,6 +13,7 @@ import { VehiculeDepotComponent } from './vehicule-depot/vehicule-depot.componen
 import { FichesComponent } from './fiches/fiches.component';
 import { FicheDetailsComponent } from './fiche-details/fiche-details.component';
 import { RecuperableComponent } from './recuperable/recuperable.component';
+import { RechercheComponent } from './recherche/recherche.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RecuperableComponent } from './recuperable/recuperable.component';
     VehiculeDepotComponent,
     FichesComponent,
     FicheDetailsComponent,
-    RecuperableComponent
+    RecuperableComponent,
+    RechercheComponent
   ],
   imports: [
     CommonModule,

@@ -15,10 +15,17 @@ export class LoginComponent {
     mdp: ''
   }
 
+  // Gestion de connexion
+  connected: boolean = false ;
+
   // Gestion des erreurs
   logError: string = '' ;
 
   constructor (private userService: UserService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.connected = (localStorage.getItem('login') != null) ;
+  }
 
   // Login
   login() {

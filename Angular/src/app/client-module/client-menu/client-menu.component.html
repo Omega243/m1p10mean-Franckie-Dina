@@ -108,12 +108,6 @@
         <div data-i18n="Account Settings">Mes fiches</div>
       </a>
     </li>
-    <li class="menu-item">
-      <a href="javascript:void(0);" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-calendar-week"></i>
-        <div data-i18n="Account Settings">Historique</div>
-      </a>
-    </li>
 
     <!-- AUTRE -->
     <li class="menu-header small text-uppercase">
@@ -126,7 +120,7 @@
       </a>
     </li>
     <li class="menu-item">
-      <a href="javascript:void(0);" class="menu-link">
+      <a [routerLink]="['/client/recherche']" class="menu-link">
         <i class="menu-icon tf-icons bx bx-zoom-in"></i>
         <div data-i18n="Account Settings">Recherche</div>
       </a>
