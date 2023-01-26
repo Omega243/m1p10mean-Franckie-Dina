@@ -11,8 +11,8 @@ export class LoginComponent {
 
   // Formulaire
   form: any = {
-    mail: '' ,
-    mdp: ''
+    mail: 'franckieandriamalala3@gmail.com' ,
+    mdp: 'mdpclient'
   }
 
   // Gestion de connexion

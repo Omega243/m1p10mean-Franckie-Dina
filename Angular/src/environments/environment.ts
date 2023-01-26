@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  BASE_URL: 'http://localhost:3000'
+  BASE_URL: 'https://meanm1p10.onrender.com'
 };
 
 /*
