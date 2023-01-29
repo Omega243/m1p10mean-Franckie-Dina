@@ -1,5 +1,6 @@
 import { FinanceService } from './../../services/finance.service';
 import { Component } from '@angular/core';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-depense-historique',
@@ -48,5 +49,19 @@ export class DepenseHistoriqueComponent {
     }) ;
   }
 
+  // drop(event: CdkDragDrop<string[]>) {
+  //   moveItemInArray(this.result, event.previousIndex, event.currentIndex);
+  // }
 
+  drop(event: Event)  {
+    if (isDragDrop(event)) {
+      moveItemInArray(this.result, event.previousIndex, event.currentIndex);
+    }
+  }
+
+
+}
+
+function isDragDrop(object: any): object is CdkDragDrop<string[]> {
+  return 'previousIndex' in object;
 }

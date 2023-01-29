@@ -56,11 +56,15 @@
                   </thead>
                   <tbody class="table-border-bottom-0">
 
+                    <!-- Drag & Drop -->
+                    <!-- <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                      <div class="example-box" cdkDrag> -->
                     <tr *ngFor="let depense of result.depenses" >
+                      <!-- <div class="example-custom-placeholder" *cdkDragPlaceholder></div> -->
                       <td>
                         <i class="fa fa-user me-1"></i> <strong>{{ depense.typedepense.intitule }}</strong>
                       </td>
-                      <td>{{ depense.datedepense | date: 'dd/MM/yyyy à HH:mm' }}</td>
+                      <td>{{ depense.datedepense | date: 'dd/MM/yyyy à HH:mm' : 'UTC+0' }}</td>
                       <td>{{ depense.montant | number }} Ar</td>
                       <td>{{ depense.description }}</td>
                       <td>
@@ -71,12 +75,14 @@
                       </td>
                     </tr>
 
-                    <tr>
-                      <td></td>
-                      <td><b>TOTAL</b></td>
-                      <td><b>{{ result.total | number }} Ar</b></td>
-                    </tr>
-
+                    <!-- /div drag & drop -->
+                    <!-- </div>
+                  </div> -->
+                  <tr>
+                    <td></td>
+                    <td><b>TOTAL</b></td>
+                    <td><b>{{ result.total | number }} Ar</b></td>
+                  </tr>
                   </tbody>
                 </table>
               </div>
